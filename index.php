@@ -6,7 +6,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>store</title>
+        <meta charset="UTF-8">
+        <title><?= trans("store") ?></title>
     </head>
     <body>
 
