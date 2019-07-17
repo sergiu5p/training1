@@ -2,6 +2,12 @@
 
     require_once "config.php";
 
+    // define translate function
+    function trans($data)
+    {
+        return $data;
+    }
+
     $serverName = constant("server");
     $userName = constant("dbUsername");
     $password = constant("dbPassword");
