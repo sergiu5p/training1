@@ -14,7 +14,10 @@
             <?php while($row = $result->fetch_assoc()): ?>
             <tr>
                 <td>
-                <img src="img/<?= $row['id'] ?>.jpg" alt="<?= $row['title'] ?>" width="250" height="250">
+                    <img src="img/<?= $row['id'] ?>.jpg" alt="<?= $row['title'] ?>" width="150" height="150">
+                </td>
+                <td>
+                    <a href=""><?= "Add"?></a>
                 </td>
             </tr>
             <tr>
@@ -33,6 +36,11 @@
                 </td>
             </tr>
             <?php endwhile; ?>
+            <tr>
+                <td>
+                    <a href="">Go to cart</a>
+                </td>
+            </tr>
         </table>
     </body>
 </html>
