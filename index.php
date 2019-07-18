@@ -2,7 +2,7 @@
     session_start();
     require_once "common.php";
 
-    if ( isset($_POST["add_to_cart"]) ) {
+    if ( isset($_GET["id"]) ) {
         $_SESSION["cartIds"][] = $_GET["id"];
     }
 
@@ -34,7 +34,7 @@
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
-            <a href="cart.php">trans("Go to cart")</a>
+            <a href="cart.php"><?= trans("Go to cart") ?></a>
         </div>
     </body>
 </html>
