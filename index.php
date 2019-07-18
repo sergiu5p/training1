@@ -5,7 +5,6 @@
     //$_SESSION["cartIds"] = [];
     if ( isset($_GET["id"]) ) {
         $_SESSION["cartIds"][] = $_GET["id"];
-        print_r($_SESSION["cartIds"]);
     }
 
     // select products that are not in the cart
