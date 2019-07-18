@@ -2,8 +2,10 @@
     session_start();
     require_once "common.php";
 
+    //$_SESSION["cartIds"] = [];
     if ( isset($_GET["id"]) ) {
         $_SESSION["cartIds"][] = $_GET["id"];
+        print_r($_SESSION["cartIds"]);
     }
 
     // select products that are not in the cart
@@ -24,7 +26,7 @@
     <body>
         <div>
             <?php if (mysqli_num_rows($result)): ?>
-                <?php while ( $row = $result->fetch_assoc() ) :  ?>
+                <?php while ( $row = $result->fetch_assoc() ):  ?>
                     <div>
                         <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>.jpg" width="150" height="150">
                         <h4><?= test_input($row["title"]) ?></h4>
@@ -34,7 +36,12 @@
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
-            <a href="cart.php"><?= trans("Go to cart") ?></a>
+            <?php if (isset($_SESSION["cartIds"])): ?>
+                <a href="cart.php"><?= trans("Go to cart") ?></a>
+            <?php else: ?>
+                <?= trans("Cart is empty"); ?>
+            <?php endif; ?>
         </div>
     </body>
 </html>
+<?php session_destroy() ?>
