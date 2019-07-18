@@ -28,9 +28,9 @@
                 <?php while ( $row = $result->fetch_assoc() ):  ?>
                     <div>
                         <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>.jpg" width="150" height="150">
-                        <h4><?= test_input($row["title"]) ?></h4>
-                        <p><?= test_input($row["description"]) ?></p>
-                        <h4><?= test_input($row["price"]) ?></h4>
+                        <h4><?= $row["title"] ?></h4>
+                        <p><?= $row["description"] ?></p>
+                        <h4><?= $row["price"] ?></h4>
                         <a href="index.php?&id=<?= test_input($row['id']) ?>">Add</a>
                     </div>
                 <?php endwhile; ?>
