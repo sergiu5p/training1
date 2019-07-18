@@ -1,11 +1,11 @@
 <?php
 
 // database connection credentials
-// define("SERVER", "", true);
-// define("DBUSERNAME", "", true);
-// define("DBPASSWORD", "", true);
-// define("DBNAME", "", true);
+// define("SERVER", "");
+// define("DBUSERNAME", "");
+// define("DBPASSWORD", "");
+// define("DBNAME", "");
 
 // admin credentials
-// define("ADMINUSERNAME", "", true);
-// define("ADMINPASSWORD", "", true);
+// define("ADMINUSERNAME", "");
+// define("ADMINPASSWORD", "");
