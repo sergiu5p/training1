@@ -15,7 +15,6 @@
         $query = "SELECT * FROM products";
     }
     $result = $conn->query($query);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,4 +43,3 @@
         </div>
     </body>
 </html>
-<?php session_destroy() ?>
