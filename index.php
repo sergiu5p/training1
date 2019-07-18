@@ -2,13 +2,13 @@
     session_start();
     require_once "common.php";
 
-    //$_SESSION["cartIds"] = [];
-    if ( isset($_GET["id"]) ) {
-        $_SESSION["cartIds"][] = $_GET["id"];
+    if ( isset($_GET["add"]) ) {
+        $_SESSION["cartIds"][] = $_GET["add"];
+        header("location: index.php");
     }
 
     // select products that are not in the cart
-    if ( isset($_SESSION["cartIds"]) ) {
+    if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]) {
         $query = "SELECT * FROM products WHERE id NOT IN (".implode(',', $_SESSION["cartIds"]).")";
     } else {
         $query = "SELECT * FROM products";
@@ -30,11 +30,11 @@
                         <h4><?= $row["title"] ?></h4>
                         <p><?= $row["description"] ?></p>
                         <h4><?= $row["price"] ?></h4>
-                        <a href="index.php?&id=<?= test_input($row['id']) ?>">Add</a>
+                        <a href="index.php?add=<?= test_input($row['id']) ?>">Add</a>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
-            <?php if (isset($_SESSION["cartIds"])): ?>
+            <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
                 <a href="cart.php"><?= trans("Go to cart") ?></a>
             <?php else: ?>
                 <?= trans("Cart is empty"); ?>
