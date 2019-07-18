@@ -1,5 +1,5 @@
 <?php
-    // Keep the cart as an array of product ids (or ids => quantities) in the Session.
+
     require_once "config.php";
 
     // Define translate function
