@@ -7,7 +7,7 @@
         header("location: cart.php");
     }
 
-    if (!isset($_SESSION["cartIds"]) || count($_SESSION["cartIds"]) == 0 ) {
+    if (!isset($_SESSION["cartIds"]) || count($_SESSION["cartIds"]) == 0) {
         header("location: index.php");
     } else {
         $query = "SELECT * FROM products WHERE id IN (".implode(",", $_SESSION["cartIds"]).")";
@@ -31,6 +31,7 @@
                 <a href="cart.php?remove=<?= test_input($row['id']) ?>">Remove</a>
             </div>
         <?php endwhile; ?>
+        <a href="index.php">Go to index</a>
     </div>
     </body>
 </html>
