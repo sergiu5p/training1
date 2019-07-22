@@ -1,7 +1,7 @@
 <?php
-
+    require_once "common.php";
+    require_once "config.php";
 ?>
-
 <!DOCTYPE html>
 <html lane="en">
     <head>
@@ -11,8 +11,8 @@
     <body>
         <div>
             <form action="">
-                <input type="text" name="userName" placeholder="Username">
-                <input type="password" name="password">
+                <input type="text" name="userName" placeholder="<?= trans("Username") ?>">
+                <input type="password" name="<?= trans("Password") ?>">
             </form>
         </div>
     </body>
