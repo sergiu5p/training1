@@ -13,3 +13,4 @@
     // admin credentials
     // define("ADMIN_USERNAME", "");
     // define("ADMIN_PASSWORD", "");
+    // define("ADMIN_EMAIL", "");
