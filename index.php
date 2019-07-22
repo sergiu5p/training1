@@ -29,7 +29,7 @@
                         <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>.jpg" width="150" height="150">
                         <h4><?= $row["title"] ?></h4>
                         <p><?= $row["description"] ?></p>
-                        <h4><?= $row["price"] ?></h4>
+                        <h4><?= $row["price"] ?> $</h4>
                         <a href="index.php?add=<?= test_input($row['id']) ?>"><?= trans("Add") ?></a>
                     </div>
                 <?php endwhile; ?>
@@ -42,3 +42,4 @@
         </div>
     </body>
 </html>
+<?php //session_destroy() ?>
