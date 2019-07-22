@@ -35,7 +35,7 @@
                 <?php endwhile; ?>
             <?php endif; ?>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                <a href="cart.php"><?= trans("Go to cart") ?></a>
+                <a href="<?= test_input("cart.php") ?>"><?= trans("Go to cart") ?></a>
             <?php else: ?>
                 <?= trans("Cart is empty"); ?>
             <?php endif; ?>
