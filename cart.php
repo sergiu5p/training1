@@ -31,7 +31,19 @@
                     <a href="cart.php?remove=<?= test_input($row['id']) ?>">Remove</a>
                 </div>
             <?php endwhile; ?>
-            <a href="index.php">Go to index</a>
         </div>
+        <form action="login.php" method="POST">
+            <input type="text" name="name" placeholder="Name">
+            <br>
+            <br>
+            <input type="text" name="contact" placeholder="Contact details">
+            <br>
+            <br>
+            <input type="text" name="comments" placeholder="Comments">
+            <br>
+            <br>
+            <a href="index.php"><?= trans("Go to index") ?></a>
+            <a href="login.php"><?= trans("Checkout") ?></a>
+        </form>
     </body>
 </html>
