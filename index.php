@@ -30,7 +30,7 @@
                         <h4><?= $row["title"] ?></h4>
                         <p><?= $row["description"] ?></p>
                         <h4><?= $row["price"] ?></h4>
-                        <a href="index.php?add=<?= test_input($row['id']) ?>">Add</a>
+                        <a href="index.php?add=<?= test_input($row['id']) ?>"><?= trans("Add") ?></a>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
