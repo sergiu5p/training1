@@ -33,17 +33,17 @@
             <?php endwhile; ?>
         </div>
         <form action="<?= test_input("login.php") ?>" method="POST">
-            <input type="text" name="name" placeholder="<?= trans("name") ?>" required>
+            <input type="text" name="name" placeholder="<?= trans("Name") ?>" required>
             <br>
             <br>
-            <input type="text" name="contact" placeholder="<?= trans("Contact details") ?>" required>
+            <input type="email" name="email" placeholder="<?= trans("E-mail") ?>" required>
             <br>
             <br>
             <input type="text" name="comments" placeholder="<?= trans("Comments") ?>">
             <br>
             <br>
-            <a href="index.php"><?= trans("Go to index") ?></a>
-            <a href="login.php"><?= trans("Checkout") ?></a>
+            <button name="checkout"><?= trans("Checkout") ?></button>
         </form>
+        <a href="<?= trans('index.php') ?>"><?= trans("Go to index") ?></a>
     </body>
 </html>
