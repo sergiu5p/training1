@@ -32,14 +32,14 @@
                 </div>
             <?php endwhile; ?>
         </div>
-        <form action="login.php" method="POST">
-            <input type="text" name="name" placeholder="Name">
+        <form action="<?= test_input("login.php") ?>" method="POST">
+            <input type="text" name="name" placeholder="<?= trans("name") ?>" required>
             <br>
             <br>
-            <input type="text" name="contact" placeholder="Contact details">
+            <input type="text" name="contact" placeholder="<?= trans("Contact details") ?>" required>
             <br>
             <br>
-            <input type="text" name="comments" placeholder="Comments">
+            <input type="text" name="comments" placeholder="<?= trans("Comments") ?>">
             <br>
             <br>
             <a href="index.php"><?= trans("Go to index") ?></a>
