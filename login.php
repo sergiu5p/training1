@@ -3,12 +3,6 @@
     require_once "config.php";
     require_once "common.php";
 
-    if (isset($_POST["checkout"])) {
-        $name = test_input($_POST["name"]);
-        $email = test_input($_POST["email"]);
-        $comments = test_input($_POST["comments"]);
-    }
-
     if (isset($_POST["login"])) {
         if ($_POST["username"] == USER_NAME && $_POST["password"] == USER_PASSWORD) {
             $_SESSION["logged_in"] = true;
@@ -17,12 +11,24 @@
         }
     }
 
-    if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
+    if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] && isset($_POST["checkout"])) {
         // send email to the admin
+        $name = test_input($_POST["name"]);
+        $email = test_input($_POST["email"]);
+        $comments = test_input($_POST["comments"]);
+        $message_products = "";
+        $query = "SELECT * FROM products WHERE id IN (".implode(",", $_SESSION["cartIds"]).")";
+        $result = $conn->query($query) or die($conn->error);
+        while ($row = $result->fetch_assoc()) {
+            $message_products.="<h4>".$row['title']."</h4>";
+            $message_products.="<h4>".$row["description"]."</h4>";
+            $message_products.="<h4>".$row["price"]." $</h4>";
+        }
+        $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
     }
 ?>
 <!DOCTYPE html>
-<html lane="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title><?= trans("login") ?></title>
