@@ -21,17 +21,17 @@
         <title><?= trans("Cart") ?></title>
     </head>
     <body>
-    <div>
-        <?php while ( $row = $result->fetch_assoc() ):  ?>
-            <div>
-                <img alt="<?= $row['title']?>" src="img/<?= $row['id'] ?>.jpg" width="150" height="150">
-                <h4><?= $row["title"] ?></h4>
-                <p><?= $row["description"] ?></p>
-                <h4><?= $row["price"] ?></h4>
-                <a href="cart.php?remove=<?= test_input($row['id']) ?>">Remove</a>
-            </div>
-        <?php endwhile; ?>
-        <a href="index.php">Go to index</a>
-    </div>
+        <div>
+            <?php while ( $row = $result->fetch_assoc() ):  ?>
+                <div>
+                    <img alt="<?= $row['title']?>" src="img/<?= $row['id'] ?>.jpg" width="150" height="150">
+                    <h4><?= $row["title"] ?></h4>
+                    <p><?= $row["description"] ?></p>
+                    <h4><?= $row["price"] ?></h4>
+                    <a href="cart.php?remove=<?= test_input($row['id']) ?>">Remove</a>
+                </div>
+            <?php endwhile; ?>
+            <a href="index.php">Go to index</a>
+        </div>
     </body>
 </html>
