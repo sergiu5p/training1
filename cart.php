@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once "common.php";
+    require_once "config.php";
 
     if (isset($_GET["remove"])) {
         unset($_SESSION["cartIds"][array_search($_GET["remove"], $_SESSION["cartIds"])]);
@@ -14,26 +15,25 @@
         $result = $conn->query($query) or die($conn->error);
     }
 
-    $name = test_input($_POST["name"]);
-    $email = test_input($_POST["email"]);
-    $comments = test_input($_POST["comments"]);
-    $message_products = "";
+    if (isset($_POST["checkout"])) {
+        $name = test_input($_POST["name"]);
+        $email = test_input($_POST["email"]);
+        $comments = test_input($_POST["comments"]);
+        $message_products = "";
 
-    while ($row = $result->fetch_assoc()) {
-        $message_products.="<h4>".$row['title']."</h4>";
-        $message_products.="<h4>".$row["description"]."</h4>";
-        $message_products.="<h4>".$row["price"]." $</h4>";
+        while ($row = $result->fetch_assoc()) {
+            $message_products.="<h4>".$row['title']."</h4>";
+            $message_products.="<h4>".$row["description"]."</h4>";
+            $message_products.="<h4>".$row["price"]." $</h4>";
+        }
+
+        $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
+        $to = ADMIN_EMAIL;
+        $sub = "New order";
+        $msg = $_SESSION["message"];
+        $headers = "From PHP online shop";
+        mail($to, $sub, $msg, $headers);
     }
-
-    $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
-    $to = ADMIN_EMAIL;
-    $sub = "order";
-    $msg = $_SESSION["message"];
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "From:".$name."<".$email.">"."\r\n";
-    $headers .= $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    echo "E-mail sent succesfully (i guess)";
-    mail($to, $sub, $msg, $headers);
 ?>
 <!DOCTYPE html>
 <html lang="en">
