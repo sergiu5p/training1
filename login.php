@@ -2,6 +2,22 @@
     session_start();
     require_once "config.php";
     require_once "common.php";
+
+    if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
+        header("location: products.php");
+
+    }
+
+    if (isset($_POST["login"])) {
+        $username = test_input($_POST["username"]);
+        $password = test_input($_POST["password"]);
+
+        if ($username == ADMIN_USERNAME && $password == ADMIN_PASSWORD) {
+            $_SESSION["login"] = true;
+            header("location: products.php");
+
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +30,7 @@
             <form action="<?= test_input("login.php") ?>" method="POST">
                 <input type="text" name="username" placeholder="<?= trans("Username") ?>" required>
                 <input type="password" name="password" placeholder="<?= trans("Password") ?>" required>
-                <input type="submit" name="login" placeholder="<?= trans("Login") ?>">
+                <button name="login"><?= trans("Login") ?></button>
             </form>
         </div>
     </body>
