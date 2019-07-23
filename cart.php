@@ -11,8 +11,12 @@
     if (!isset($_SESSION["cartIds"]) || count($_SESSION["cartIds"]) == 0) {
         header("location: index.php");
     } else {
-        $query = "SELECT * FROM products WHERE id IN (".implode(",", $_SESSION["cartIds"]).")";
-        $result = $conn->query($query) or die($conn->error);
+        $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
+        $query = "SELECT * FROM products WHERE id IN ($in)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param(str_repeat('i', count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
+        $stmt->execute();
+        $result = $stmt->get_result();
     }
 
     if (isset($_POST["checkout"])) {

@@ -9,8 +9,11 @@
 
     if (isset($_GET["delete"])) {
         $id = test_input($_GET["delete"]);
-        $query = "DELETE FROM products WHERE id = $id";
-        $conn->query($query) or die($conn->error);
+        $query = "DELETE FROM products WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         header("location: products.php  ");
     }
 
@@ -34,7 +37,7 @@
                     <p><?= $row["description"] ?></p>
                     <h4><?= $row["price"] ?> $</h4>
                     <a href="product.php"><?= trans("Edit") ?></a>
-                    <a href="products.php?delete=<?= test_input($row['id']) ?>"><?= trans("Delete") ?></a>
+                    <a href="products.php?id=<?= $row['id'] ?>"><?= trans("Delete") ?></a>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
