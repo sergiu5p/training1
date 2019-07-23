@@ -31,8 +31,11 @@
         $to = ADMIN_EMAIL;
         $sub = "New order";
         $msg = $_SESSION["message"];
-        $headers = "From PHP online shop";
+        $headers = "From: ".$email."\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
         mail($to, $sub, $msg, $headers);
+        session_destroy();
     }
 ?>
 <!DOCTYPE html>
