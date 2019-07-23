@@ -66,7 +66,7 @@
             <input type="text" name="comments" placeholder="<?= trans("Comments") ?>">
             <br>
             <br>
-            <input type="submit" name="checkout" placeholder="<?= trans("Checkout") ?>">
+            <button name="checkout"><?= trans("Checkout") ?></button>
         </form>
         <a href="<?= trans('index.php') ?>"><?= trans("Go to index") ?></a>
     </body>
