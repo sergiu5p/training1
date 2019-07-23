@@ -6,8 +6,6 @@
     if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
         header("location: products.php");
 
-    } else {
-        echo "Wrong user name or password!";
     }
 
     if (isset($_POST["login"])) {
