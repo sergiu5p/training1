@@ -9,11 +9,16 @@
 
     // select products that are not in the cart
     if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]) {
-        $query = "SELECT * FROM products WHERE id NOT IN (".implode(',', $_SESSION["cartIds"]).")";
+        $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
+        $query = "SELECT * FROM products WHERE id NOT IN ($in)";
+        $statement = $conn->prepare($query);
+        $statement->bind_param(str_repeat('i', count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
+        $statement->execute();
+        $result = $statement->get_result();
     } else {
         $query = "SELECT * FROM products";
+        $result = $conn->query($query);
     }
-    $result = $conn->query($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
