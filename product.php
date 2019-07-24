@@ -7,74 +7,57 @@
         exit();
     }
 
-    if (isset($_GET["edit"])) {
-        $id = $_GET["edit"];
-        $action = "edit";
+    $id = 0;
+    $errors = [];
+    $row = [
+            'id' => "",
+            'title' => "",
+            'description' => ""
+    ];
+
+    if (isset($_GET["id"])) {
+        $id = test_input($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-    } elseif (isset($_GET["add"])) {
-        $action = "add";
+        $row = $result->fetch_assoc();
+
     }
 
-    if (isset($_POST["save"])) {
+    if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
+    isset($_POST["image"]) || isset($_POST["save"])) {
         $title = test_input($_POST["title"]);
         $description = test_input($_POST["description"]);
         $price = test_input($_POST["price"]);
-        $image = $_POST["id"];
+        $id = test_input($_POST["id"]);
+        $ids_array = [];
+        $query = "SELECT id FROM products";
+        $result = $conn->query($query);
+        while ($row = $result->fetch_assoc()) {
+            $ids_array[] = $row["id"];
+        }
+
+        if (in_array($id, $ids_array)) {
+            $query = "UPDATE products SET 'title'=?, 'description'=?, 'price'=? WHERE 'id'=?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssdi", $title, $description, $price, $id);
+        }
+    }
+
+//    if (isset($_POST["save"])) {
+//        $title = test_input($_POST["title"]);
+//        $description = test_input($_POST["description"]);
+//        $price = test_input($_POST["price"]);
+//        $image = $_POST["id"];
         //$query = "INSERT INTO products ('title', 'description', 'price') VALUES (?, ?, ?)";
         //$stmt = $conn->prepare($query);
         //$stmt->bind_param("ssi", $title, $description, $price);
         // $stmt->execute();
 
-        if (isset($_FILES["image"])) {
-            $id = test_input($_POST["id"]);
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($_FILES["image"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-            // Check if image file is a actual image or fake image
-            if(isset($_POST["image"])) {
-                $check = getimagesize($_FILES["image"]["tmp_name"]);
-                if($check !== false) {
-                    $uploadOk = 1;
-                } else {
-                    echo "File is not an image.";
-                    $uploadOk = 0;
-                }
-            }
-            // Check file size
-            if ($_FILES["image"]["size"] > 500000) {
-                echo "Sorry, your file is too large.";
-                $uploadOk = 0;
-            }
-            // Allow certain file formats
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif" ) {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                $uploadOk = 0;
-            }
-            // Check if $uploadOk is set to 0 by an error
-            if ($uploadOk == 0) {
-                header("location: product.php?edit=".$id);
-            // if everything is ok, try to upload file
-            } else {
-                $tmp_name = $_FILES["image"]["tmp_name"];
-                $new_name = "img/".$id.".".$imageFileType;
-                if (move_uploaded_file($tmp_name, $new_name)) {
-                    if (isset($_SESSION["message"])) {
-                        unset($_SESSION["message"]);
-                    }
-                    header("location: products.php");
-                } else {
-                    $_SESSION["message"] = "Sorry, there was an error uploading your image.";
-                    header("location: product.php?edit=".$id);
-                }
-            }
-        }
-    }
+
+//    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,21 +67,20 @@
     </head>
     <body>
         <a href="login.php?logout"><?= trans("Logout") ?></a>
-        <?php if (isset($_SESSION["message"])): ?>
-            <h1><?= $_SESSION["message"] ?><h1>
-        <?php endif; ?>
         <div>
-            <?php if ($action == "edit"): ?>
-                <?php $row = $result->fetch_assoc() ?>
-                <form action="product.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                    <input type="text" name="title" value="<?= $row["title"] ?>">
-                    <input type="text" name="description" value="<?= $row["description"] ?>">
-                    <input type="number" name="price" value="<?= $row['price'] ?>">
-                    <input type="file" name="image" placeholder="<?= trans("Image") ?>">
-                    <input type="submit" name="save" value="<?= trans("Save") ?>">
-                </form>
-            <?php endif; ?>
+            <form action="product.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                <br>
+                <input type="text" name="title" value="<?= $row["title"] ?>">
+                <br>
+                <input type="text" name="description" value="<?= $row["description"] ?>">
+                <br>
+                <input type="number" name="price" value="<?= $row['price'] ?>">
+                <br>
+                <input type="file" name="image" placeholder="<?= trans("Image") ?>">
+                <br>
+                <input type="submit" name="save" value="<?= trans("Save") ?>">
+            </form>
         </div>
     </body>
 </html>
