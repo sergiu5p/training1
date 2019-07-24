@@ -28,9 +28,6 @@
 
     if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
     isset($_POST["image"]) || isset($_POST["save"])) {
-        $title = test_input($_POST["title"]);
-        $description = test_input($_POST["description"]);
-        $price = test_input($_POST["price"]);
         $id = test_input($_POST["id"]);
         $ids_array = [];
         $query = "SELECT id FROM products";
@@ -40,9 +37,14 @@
         }
 
         if (in_array($id, $ids_array)) {
-            $query = "UPDATE products SET 'title'=?, 'description'=?, 'price'=? WHERE 'id'=?";
-            $stmt = $conn->prepare($query);
+            $query = "UPDATE 'products' SET 'title'=?, 'description'=?, 'price'='?' WHERE 'id'=?";
+            $stmt = $conn->prepare($query) or die($conn->error);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
+            $title = test_input($_POST["title"]);
+            $description = test_input($_POST["description"]);
+            $price = test_input($_POST["price"]);
+            $id = test_input($_POST["id"]);
+            $stmt->execute();
         }
     }
 
