@@ -29,20 +29,23 @@
         <title><?= trans("Products") ?></title>
     </head>
     <body>
-        <?php if (mysqli_num_rows($result)): ?>
+    <a href="login.php?logout"><?= trans("Logout") ?></a>
+    <?php if (mysqli_num_rows($result)): ?>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
                 <div>
                     <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>.jpg" width="150" height="150">
                     <h4><?= $row["title"] ?></h4>
                     <p><?= $row["description"] ?></p>
                     <h4><?= $row["price"] ?> $</h4>
-                    <a href="product.php"><?= trans("Edit") ?></a>
+                    <a href="product.php?edit=<?= $row['id']?>"><?= trans("Edit") ?></a>
                     <a href="products.php?id=<?= $row['id'] ?>"><?= trans("Delete") ?></a>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
             <?= "No product" ?>
         <?php endif;?>
+        <br>
+        <a href="product.php?add"><?= trans("Add") ?></a>
     </body>
 </html>
 
