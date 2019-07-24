@@ -37,7 +37,7 @@
                     <h4><?= $row["title"] ?></h4>
                     <p><?= $row["description"] ?></p>
                     <h4><?= $row["price"] ?> $</h4>
-                    <a href="product.php?edit=<?= $row['id']?>"><?= trans("Edit") ?></a>
+                    <a href="product.php?id=<?= $row['id']?>"><?= trans("Edit") ?></a>
                     <a href="products.php?id=<?= $row['id'] ?>"><?= trans("Delete") ?></a>
                 </div>
             <?php endwhile; ?>
@@ -45,7 +45,7 @@
             <?= "No product" ?>
         <?php endif;?>
         <br>
-        <a href="product.php?add"><?= trans("Add") ?></a>
+        <a href="product.php"><?= trans("Add") ?></a>
     </body>
 </html>
 
