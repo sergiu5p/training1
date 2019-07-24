@@ -27,7 +27,7 @@
         <title><?= trans("store") ?></title>
     </head>
     <body>
-        <a href="index.php"><?= trans("Login") ?></a>
+        <a href="login.php"><?= trans("Login") ?></a>
         <div>
             <?php if (mysqli_num_rows($result)): ?>
                 <?php while ( $row = $result->fetch_assoc() ):  ?>
