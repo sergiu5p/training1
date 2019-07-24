@@ -8,8 +8,8 @@
         header("location: cart.php");
     }
 
-    if (!isset($_SESSION["cartIds"]) || count($_SESSION["cartIds"]) == 0) {
-        exit("Your cart is empty!");
+    if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
+        header("location: index.php");
     } else {
         $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
         $query = "SELECT * FROM products WHERE id IN ($in)";
@@ -49,6 +49,7 @@
         <title><?= trans("Cart") ?></title>
     </head>
     <body>
+        <a href="login.php"><?= trans("Login") ?></a>
         <div>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
                 <div>
