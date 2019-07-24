@@ -9,7 +9,7 @@
     }
 
     if (!isset($_SESSION["cartIds"]) || count($_SESSION["cartIds"]) == 0) {
-        header("location: index.php");
+        exit("Your cart is empty!");
     } else {
         $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
         $query = "SELECT * FROM products WHERE id IN ($in)";
