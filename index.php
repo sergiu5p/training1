@@ -32,7 +32,7 @@
             <?php if (mysqli_num_rows($result)): ?>
                 <?php while ( $row = $result->fetch_assoc() ):  ?>
                     <div>
-                        <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>.jpg" width="150" height="150">
+                        <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>" width="150" height="150">
                         <h4><?= $row["title"] ?></h4>
                         <p><?= $row["description"] ?></p>
                         <h4><?= $row["price"] ?> $</h4>
