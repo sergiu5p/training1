@@ -1,8 +1,8 @@
 <?php
     require_once "common.php";
 
-    if ( isset($_GET["add"]) ) {
-        $_SESSION["cartIds"][] = $_GET["add"];
+    if ( isset($_GET["id"]) ) {
+        $_SESSION["cartIds"][] = $_GET["id"];
         header("location: index.php");
     }
 
@@ -35,7 +35,7 @@
                         <h4><?= $row["title"] ?></h4>
                         <p><?= $row["description"] ?></p>
                         <h4><?= $row["price"] ?> $</h4>
-                        <a href="index.php?add=<?= test_input($row['id']) ?>"><?= trans("Add") ?></a>
+                        <a href="index.php?id=<?= test_input($row['id']) ?>"><?= trans("Add") ?></a>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
@@ -47,4 +47,3 @@
         </div>
     </body>
 </html>
-<?php //session_destroy() ?>
