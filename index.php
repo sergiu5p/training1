@@ -2,7 +2,7 @@
     require_once "common.php";
 
     if ( isset($_GET["id"]) ) {
-        $_SESSION["cartIds"][] = $_GET["id"];
+        $_SESSION["cartIds"][] = strip_tags($_GET["id"]);
         header("location: index.php");
     }
 
@@ -31,16 +31,16 @@
             <?php if (mysqli_num_rows($result)): ?>
                 <?php while ( $row = $result->fetch_assoc() ):  ?>
                     <div>
-                        <img alt="<?= test_input($row['title'])?>" src="img/<?= test_input($row['id']) ?>" width="150" height="150">
-                        <h4><?= test_input($row["title"]) ?></h4>
-                        <p><?= test_input($row["description"]) ?></p>
-                        <h4><?= test_input($row["price"]) ?> $</h4>
-                        <a href="index.php?id=<?= test_input($row['id']) ?>"><?= trans("Add") ?></a>
+                        <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= htmlspecialchars($row["id"]) ?>" width="150" height="150">
+                        <h4><?= htmlspecialchars($row["title"]) ?></h4>
+                        <p><?= htmlspecialchars($row["description"]) ?></p>
+                        <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
+                        <a href="index.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Add") ?></a>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                <a href="<?= test_input("cart.php") ?>"><?= trans("Go to cart") ?></a>
+                <a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a>
             <?php else: ?>
                 <?= trans("Cart is empty"); ?>
             <?php endif; ?>
