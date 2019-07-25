@@ -3,7 +3,8 @@
     require_once "config.php";
 
     if (isset($_GET["remove"])) {
-        unset($_SESSION["cartIds"][array_search($_GET["remove"], $_SESSION["cartIds"])]);
+        $remove = strip_tags($_GET["remove"]);
+        unset($_SESSION["cartIds"][array_search($remove, $_SESSION["cartIds"])]);
         header("location: cart.php");
     }
 
@@ -19,9 +20,9 @@
     }
 
     if (isset($_POST["checkout"])) {
-        $name = test_input($_POST["name"]);
-        $email = test_input($_POST["email"]);
-        $comments = test_input($_POST["comments"]);
+        $name = strip_tags($_POST["name"]);
+        $email = strip_tags($_POST["email"]);
+        $comments = strip_tags($_POST["comments"]);
         $message_products = "";
 
         while ($row = $result->fetch_assoc()) {
@@ -52,15 +53,15 @@
         <div>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
                 <div>
-                    <img alt="<?= $row['title']?>" src="img/<?= $row['id'] ?>.jpg" width="150" height="150">
-                    <h4><?= $row["title"] ?></h4>
-                    <p><?= $row["description"] ?></p>
-                    <h4><?= $row["price"] ?> $</h4>
-                    <a href="cart.php?remove=<?= test_input($row['id']) ?>">Remove</a>
+                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
+                    <h4><?= htmlspecialchars($row["title"]) ?></h4>
+                    <p><?= htmlspecialchars($row["description"]) ?></p>
+                    <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
+                    <a href="cart.php?remove=<?= htmlspecialchars($row['id']) ?>">Remove</a>
                 </div>
             <?php endwhile; ?>
         </div>
-        <form action="<?= test_input("cart.php") ?>" method="POST">
+        <form action="<?= htmlspecialchars("cart.php") ?>" method="POST">
             <input type="text" name="name" placeholder="<?= trans("Name") ?>" required>
             <br>
             <br>
@@ -72,6 +73,6 @@
             <br>
             <button name="checkout"><?= trans("Checkout") ?></button>
         </form>
-        <a href="<?= trans('index.php') ?>"><?= trans("Go to index") ?></a>
+        <a href="<?= htmlspecialchars("index.php")?><?= trans("Go to index") ?></a>
     </body>
 </html>
