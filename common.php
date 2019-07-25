@@ -3,8 +3,7 @@
     require_once "config.php";
 
     // Define translate function
-    function trans($data)
-    {
+    function trans($data) {
         return $data;
     }
 
