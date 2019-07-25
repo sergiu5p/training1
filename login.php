@@ -13,8 +13,8 @@
     }
 
     if (isset($_POST["login"])) {
-        $username = test_input($_POST["username"]);
-        $password = test_input($_POST["password"]);
+        $username = strip_tags($_POST["username"]);
+        $password = strip_tags($_POST["password"]);
 
         if ($username == ADMIN_USERNAME && $password == ADMIN_PASSWORD) {
             $_SESSION["logged_in"] = true;
@@ -30,7 +30,7 @@
     </head>
     <body>
         <div>
-            <form action="<?= test_input("login.php") ?>" method="POST">
+            <form action="<?= htmlspecialchars("login.php") ?>" method="POST">
                 <input type="text" name="username" placeholder="<?= trans("Username") ?>" required>
                 <input type="password" name="password" placeholder="<?= trans("Password") ?>" required>
                 <button name="login"><?= trans("Login") ?></button>
