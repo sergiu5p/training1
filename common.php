@@ -8,7 +8,7 @@
     // For prevent sql injection
     function sqlInjection($data) {
         $data = strip_tags($data);
-        $data = mysqli_real_escape_string($GLOBALS['$conn'], $data);
+        $data = mysqli_real_escape_string($GLOBALS['conn'], $data);
         return $data;
     }
 
