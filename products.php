@@ -13,7 +13,6 @@
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        header("location: products.php  ");
     }
 
     // select all the products
