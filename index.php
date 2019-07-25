@@ -26,7 +26,11 @@
         <title><?= trans("store") ?></title>
     </head>
     <body>
-        <a href="login.php"><?= trans("Login") ?></a>
+        <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
+            <a href="login.php?logout"><?= trans("Logout") ?></a>
+        <?php else: ?>
+            <a href="login.php"><?= trans("Login") ?></a>
+        <?php endif; ?>
         <div>
             <?php if (mysqli_num_rows($result)): ?>
                 <?php while ( $row = $result->fetch_assoc() ):  ?>
