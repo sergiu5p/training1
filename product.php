@@ -36,7 +36,7 @@
         }
 
         if (in_array($id, $ids_array)) {
-            $query = "UPDATE 'products' SET 'title'=?, 'description'=?, 'price'='?' WHERE 'id'=?";
+            $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
             $title = strip_tags($_POST["title"]);
