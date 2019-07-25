@@ -3,13 +3,12 @@
 
     if ( isset($_GET["id"]) ) {
         $_SESSION["cartIds"][] = strip_tags($_GET["id"]);
-        header("location: index.php");
     }
 
     // select products that are not in the cart
     if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]) {
         $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
-        $query = "SELECT * FROM products WHERE id NOT IN ($in)";
+        $query = "SELECT * FROM products WHERE id NOT IN ($in) ORDER BY id";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(str_repeat('i', count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
         $stmt->execute();
