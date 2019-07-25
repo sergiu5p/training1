@@ -15,7 +15,7 @@
     ];
 
     if (isset($_GET["id"])) {
-        $id = test_input($_GET["id"]);
+        $id = strip_tags($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
@@ -27,7 +27,7 @@
 
     if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
     isset($_POST["image"]) || isset($_POST["save"])) {
-        $id = test_input($_POST["id"]);
+        $id = strip_tags($_POST["id"]);
         $ids_array = [];
         $query = "SELECT id FROM products";
         $result = $conn->query($query);
@@ -47,18 +47,18 @@
         }
     }
 
-//    if (isset($_POST["save"])) {
-//        $title = test_input($_POST["title"]);
-//        $description = test_input($_POST["description"]);
-//        $price = test_input($_POST["price"]);
-//        $image = $_POST["id"];
-        //$query = "INSERT INTO products ('title', 'description', 'price') VALUES (?, ?, ?)";
-        //$stmt = $conn->prepare($query);
-        //$stmt->bind_param("ssi", $title, $description, $price);
-        // $stmt->execute();
+/*    if (isset($_POST["save"])) {
+        $title = strip_tags($_POST["title"]);
+        $description = strip_tags($_POST["description"]);
+        $price = strip_tags($_POST["price"]);
+        $image = strip_tags($_POST["id"]);
+        $query = "INSERT INTO products ('title', 'description', 'price') VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssi", $title, $description, $price);
+         $stmt->execute();
 
 
-//    }
+    }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
