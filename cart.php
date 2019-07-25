@@ -5,7 +5,6 @@
     if (isset($_GET["remove"])) {
         $remove = strip_tags($_GET["remove"]);
         unset($_SESSION["cartIds"][array_search($remove, $_SESSION["cartIds"])]);
-        header("location: cart.php");
     }
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
@@ -57,7 +56,7 @@
         <div>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img\<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
@@ -77,6 +76,6 @@
             <br>
             <button name="checkout"><?= trans("Checkout") ?></button>
         </form>
-        <a href="<?= htmlspecialchars("index.php")?><?= trans("Go to index") ?></a>
+        <a href="<?= htmlspecialchars('index.php') ?>"><?= trans("Go to index!") ?></a>
     </body>
 </html>
