@@ -39,10 +39,10 @@
             $query = "UPDATE 'products' SET 'title'=?, 'description'=?, 'price'='?' WHERE 'id'=?";
             $stmt = $conn->prepare($query) or die($conn->error);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
-            $title = test_input($_POST["title"]);
-            $description = test_input($_POST["description"]);
-            $price = test_input($_POST["price"]);
-            $id = test_input($_POST["id"]);
+            $title = strip_tags($_POST["title"]);
+            $description = strip_tags($_POST["description"]);
+            $price = strip_tags($_POST["price"]);
+            $id = strip_tags($_POST["id"]);
             $stmt->execute();
         }
     }
