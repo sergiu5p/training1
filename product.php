@@ -39,9 +39,9 @@
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
-            $title = strip_tags($_POST["title"]);
-            $description = strip_tags($_POST["description"]);
-            $price = strip_tags($_POST["price"]);
+            $title = sqlInjection($_POST["title"]);
+            $description = sqlInjection($_POST["description"]);
+            $price = sqlInjection($_POST["price"]);
             $id = strip_tags($_POST["id"]);
             $stmt->execute();
         }
