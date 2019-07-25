@@ -1,5 +1,4 @@
 <?php
-    session_start();
     require_once "common.php";
 
     if ( isset($_GET["add"]) ) {
