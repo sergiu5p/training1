@@ -7,7 +7,6 @@
     }
 
     $id = 0;
-    $errors = [];
     $row = [
             'id' => "",
             'title' => "",
@@ -27,6 +26,7 @@
 
     if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
     isset($_POST["image"]) || isset($_POST["save"])) {
+        $_SESSION['errors'] = [];
         $id = strip_tags($_POST["id"]);
         $ids_array = [];
         $query = "SELECT id FROM products";
@@ -52,29 +52,27 @@
                 // Check if image file is a actual image or fake image
                 if(isset($_POST["image"])) {
                     $check = getimagesize($_FILES["image"]["tmp_name"]);
-                    if($check !== false) {
+                    if($check) {
                         $uploadOk = 1;
                     } else {
-                        $errors[] =  "File is not an image.";
+                        $_SESSION['errors'][] =  "File is not an image.";
                         $uploadOk = 0;
                     }
                 }
                 // Check file size
                 if ($_FILES["image"]["size"] > 500000) {
-                    $errors[] =  "Sorry, your file is too large.";
+                    $_SESSION['errors'][] =  "Sorry, your file is too large.";
                     $uploadOk = 0;
                 }
                 // Allow certain file formats
                 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                     && $imageFileType != "gif" ) {
-                    $errors[] =  "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $_SESSION['errors'][] =  "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
                     $uploadOk = 0;
                 }
                 // Check if $uploadOk is set to 0 by an error
-                if ($uploadOk == 0) {
-                    header("location: product.php?id=".$id);
-                    // if everything is ok, try to upload file
-                } else {
+                if ($uploadOk) {
+
                     $tmp_name = $_FILES["image"]["tmp_name"];
                     $new_name = "img/".$id.".".$imageFileType;
 
@@ -82,24 +80,15 @@
 
                     copy($tmp_name, $new_name);
                     $stmt->execute();
+                    $_SESSION['errors'] = [];
                     header("location: products.php");
+                } else {
+                    header("location: product.php?id=$id");
                 }
             }
         }
     }
 
-/*    if (isset($_POST["save"])) {
-        $title = strip_tags($_POST["title"]);
-        $description = strip_tags($_POST["description"]);
-        $price = strip_tags($_POST["price"]);
-        $image = strip_tags($_POST["id"]);
-        $query = "INSERT INTO products ('title', 'description', 'price') VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssi", $title, $description, $price);
-         $stmt->execute();
-
-
-    }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,12 +103,12 @@
             <li><a href="products.php">products.php</a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
         </ul>
+        <?php if (isset($_SESSION['errors'])): ?>
+            <?php foreach ($_SESSION['errors'] as $e): ?>
+                <?= $e; ?>
+            <?php endforeach;?>
+        <?php endif; ?>
         <div>
-            <?php if (!empty($errors)): ?>
-                <?php foreach ($errors as $e): ?>
-                    <?= $e; ?>
-                <?php endforeach;?>
-            <?php endif; ?>
             <form action="product.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                 <br>
