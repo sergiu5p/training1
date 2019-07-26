@@ -55,19 +55,19 @@
                     if($check !== false) {
                         $uploadOk = 1;
                     } else {
-                        echo "File is not an image.";
+                        $errors[] =  "File is not an image.";
                         $uploadOk = 0;
                     }
                 }
                 // Check file size
                 if ($_FILES["image"]["size"] > 500000) {
-                    echo "Sorry, your file is too large.";
+                    $errors[] =  "Sorry, your file is too large.";
                     $uploadOk = 0;
                 }
                 // Allow certain file formats
                 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                     && $imageFileType != "gif" ) {
-                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                    $errors[] =  "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
                     $uploadOk = 0;
                 }
                 // Check if $uploadOk is set to 0 by an error
@@ -81,10 +81,10 @@
                     @unlink($new_name);
 
                     copy($tmp_name, $new_name);
+                    $stmt->execute();
+                    header("location: products.php");
                 }
             }
-
-            $stmt->execute();
         }
     }
 
@@ -104,12 +104,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <title><?= trans("product") ?></title>
     </head>
     <body>
-        <a href="login.php?logout"><?= trans("Logout") ?></a>
+        <ul>
+            <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+            <li><a href="products.php">products.php</a></li>
+            <li><a href="index.php"><?= trans("index.php") ?></a></li>
+        </ul>
         <div>
+            <?php if (!empty($errors)): ?>
+                <?php foreach ($errors as $e): ?>
+                    <?= $e; ?>
+                <?php endforeach;?>
+            <?php endif; ?>
             <form action="product.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                 <br>
