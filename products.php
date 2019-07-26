@@ -23,15 +23,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <title><?= trans("Products") ?></title>
     </head>
     <body>
-    <a href="login.php?logout"><?= trans("Logout") ?></a>
-    <?php if (mysqli_num_rows($result)): ?>
+        <ul>
+            <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+            <li><a href="index.php"><?= trans("index.php") ?></a></li>
+        </ul>
+        <?php if (mysqli_num_rows($result)): ?>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row['title'])?>" src="img/<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row['title'])?>" src="img/<?= htmlspecialchars($row['id']) ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
