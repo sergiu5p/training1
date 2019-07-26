@@ -21,14 +21,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <title><?= trans("store") ?></title>
     </head>
     <body>
         <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
-            <a href="login.php?logout"><?= trans("Logout") ?></a>
+            <ul>
+                <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+                <li><a href="products.php"><?= trans("products.php") ?></a></li>
+            </ul>
         <?php else: ?>
-            <a href="login.php"><?= trans("Login") ?></a>
+            <ul>
+                <li><a href="login.php"><?= trans("Login") ?></a></li>
+                <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
+                    <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
+                <?php else: ?>
+                    <li><?= trans("Cart is empty"); ?></li>
+                <?php endif; ?>
+            </ul>
         <?php endif; ?>
         <div>
             <?php if (mysqli_num_rows($result)): ?>
@@ -41,11 +52,6 @@
                         <a href="index.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Add") ?></a>
                     </div>
                 <?php endwhile; ?>
-            <?php endif; ?>
-            <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                <a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a>
-            <?php else: ?>
-                <?= trans("Cart is empty"); ?>
             <?php endif; ?>
         </div>
     </body>
