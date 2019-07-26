@@ -39,19 +39,31 @@
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
         mail($to, $sub, $msg, $headers);
         session_destroy();
+        header("location: index.php");
     }
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <title><?= trans("Cart") ?></title>
     </head>
     <body>
         <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
-            <a href="login.php?logout"><?= trans("Logout") ?></a>
+            <ul>
+                <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+                <li><a href="products.php">products.php</a></li>
+            </ul>
         <?php else: ?>
-            <a href="login.php"><?= trans("Login") ?></a>
+            <ul>
+                <li>
+                    <a href="login.php"><?= trans("Login") ?></a>
+                </li>
+                <li>
+                    <a href="<?= htmlspecialchars('index.php') ?>"><?= trans("index.php") ?></a>
+                </li>
+            </ul>
         <?php endif; ?>
         <div>
             <?php while ( $row = $result->fetch_assoc() ):  ?>
@@ -76,6 +88,5 @@
             <br>
             <button name="checkout"><?= trans("Checkout") ?></button>
         </form>
-        <a href="<?= htmlspecialchars('index.php') ?>"><?= trans("Go to index!") ?></a>
     </body>
 </html>
