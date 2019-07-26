@@ -6,13 +6,22 @@
         exit();
     }
 
-    if (isset($_GET["delete"])) {
-        $id = strip_tags($_GET["delete"]);
+    // delete product
+    if (isset($_GET["id"])) {
+        $id = strip_tags($_GET["id"]);
+        $fileType = ["jpg", "jpeg", "png"];
+        // Sorry, only JPG, JPEG & PNG files are allowed
+
+        foreach ($fileType as $e) {
+            @unlink("img/$id.$e");
+        }
+
         $query = "DELETE FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
+        header("location: products.php");
     }
 
     // select all the products
