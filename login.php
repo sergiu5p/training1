@@ -25,10 +25,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <title><?= trans("login") ?></title>
     </head>
     <body>
+        <ul>
+            <li><a href="index.php"><?= trans("index.php") ?></a></li>
+        </ul>
         <div>
             <form action="<?= htmlspecialchars("login.php") ?>" method="POST">
                 <input type="text" name="username" placeholder="<?= trans("Username") ?>" required>
