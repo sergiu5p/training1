@@ -50,9 +50,9 @@
                 $uploadOk = 1;
                 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                 // Check if image file is a actual image or fake image
-                if(isset($_POST["image"])) {
+                if (isset($_POST["image"])) {
                     $check = getimagesize($_FILES["image"]["tmp_name"]);
-                    if($check) {
+                    if ($check) {
                         $uploadOk = 1;
                     } else {
                         $_SESSION['errors'][] =  "File is not an image.";
@@ -65,9 +65,8 @@
                     $uploadOk = 0;
                 }
                 // Allow certain file formats
-                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                    && $imageFileType != "gif" ) {
-                    $_SESSION['errors'][] =  "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                    $_SESSION['errors'][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
                     $uploadOk = 0;
                 }
                 // Check if $uploadOk is set to 0 by an error
@@ -88,7 +87,6 @@
             }
         }
     }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,13 +110,18 @@
             <form action="product.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                 <br>
-                <input type="text" name="title" value="<?= $row["title"] ?>">
                 <br>
-                <input type="text" name="description" value="<?= $row["description"] ?>">
+                Title: <input type="text" name="title" value="<?= $row["title"] ?>" required>
                 <br>
-                <input type="number" name="price" value="<?= $row['price'] ?>">
+                <br>
+                Description: <input type="text" name="description" value="<?= $row["description"] ?>" required>
+                <br>
+                <br>
+                Price: <input type="number" name="price" value="<?= $row['price'] ?>" required>
+                <br>
                 <br>
                 <input type="file" name="image" placeholder="<?= trans("Image") ?>">
+                <br>
                 <br>
                 <input type="submit" name="save" value="<?= trans("Save") ?>">
             </form>
