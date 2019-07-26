@@ -29,6 +29,11 @@
         <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
             <ul>
                 <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+                <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
+                    <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
+                <?php else: ?>
+                    <li><?= trans("Cart is empty"); ?></li>
+                <?php endif; ?>
                 <li><a href="products.php"><?= trans("products.php") ?></a></li>
             </ul>
         <?php else: ?>
