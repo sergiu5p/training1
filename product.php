@@ -1,5 +1,5 @@
 <?php
-    require_once "common.php";
+        require_once "common.php";
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
         header("location: login.php");
@@ -14,7 +14,7 @@
     ];
 
     if (isset($_GET["id"])) {
-        $id = strip_tags($_GET["id"]);
+        $id = sqlInjection($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
@@ -22,31 +22,25 @@
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
 
-    }
 
-    if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
-    isset($_POST["image"]) || isset($_POST["save"])) {
-        $_SESSION['errors'] = [];
-        $id = strip_tags($_POST["id"]);
-        $ids_array = [];
-        $query = "SELECT id FROM products";
-        $result = $conn->query($query);
-        while ($row = $result->fetch_assoc()) {
-            $ids_array[] = $row["id"];
-        }
+        if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
+            isset($_POST["image"]) || isset($_POST["save"])) {
+            $_SESSION['errors'] = [];
+            $id = strip_tags($_POST["id"]);
+            $query = "SELECT id FROM products";
+            $result = $conn->query($query);
 
-        if (in_array($id, $ids_array)) {
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
             $title = sqlInjection($_POST["title"]);
             $description = sqlInjection($_POST["description"]);
             $price = sqlInjection($_POST["price"]);
-            $id = strip_tags($_POST["id"]);
+            $id = sqlInjection($_POST["id"]);
 
             if (isset($_FILES["image"])) {
 
-                // Check the validation of image
+                // Check the image validation
                 if (imageValidation($_FILES["image"])) {
 
                     $tmp_name = $_FILES["image"]["tmp_name"];
@@ -63,6 +57,14 @@
                 }
             }
         }
+    } else {
+        $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $title = sqlInjection($_POST["title"]);
+        $description = sqlInjection($_POST["description"]);
+        $price = sqlInjection($_POST["price"]);
+        $stmt->bind_param("ssd", $title, $description, $price);
+
     }
 ?>
 <!DOCTYPE html>
