@@ -80,7 +80,7 @@
         </ul>
         <?php if (isset($_SESSION['errors'])): ?>
             <?php foreach ($_SESSION['errors'] as $e): ?>
-                <?= $e; ?>
+                <?= trans($e); ?>
             <?php endforeach;?>
         <?php endif; ?>
         <div>
