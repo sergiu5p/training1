@@ -25,18 +25,17 @@
 
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
+
             $_SESSION['errors'] = [];
-            $id = strip_tags($_POST["id"]);
-            $query = "SELECT id FROM products";
-            $result = $conn->query($query);
+            $id = sqlInjection($_POST["id"]);
 
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
-            $stmt->bind_param("ssdi", $title, $description, $price, $id);
             $title = sqlInjection($_POST["title"]);
             $description = sqlInjection($_POST["description"]);
             $price = sqlInjection($_POST["price"]);
             $id = sqlInjection($_POST["id"]);
+            $stmt->bind_param("ssdi", $title, $description, $price, $id);
 
             if (isset($_FILES["image"])) {
 
@@ -58,13 +57,31 @@
             }
         }
     } else {
-        $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $title = sqlInjection($_POST["title"]);
-        $description = sqlInjection($_POST["description"]);
-        $price = sqlInjection($_POST["price"]);
-        $stmt->bind_param("ssd", $title, $description, $price);
+        if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
+            isset($_POST["image"]) || isset($_POST["save"])) {
 
+            $_SESSION['errors'] = [];
+
+            // insert the product into table
+            $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $title = sqlInjection($_POST["title"]);
+            $description = sqlInjection($_POST["description"]);
+            $price = sqlInjection($_POST["price"]);
+            $stmt->bind_param("ssd", $title, $description, $price);
+
+            // extract the id of product
+            $query = "SELECT id FROM products ORDER BY id DESC LIMIT 1";
+            $result = $conn->query($query);
+            $result = $result->fetch_assoc();
+
+            // check the image validation
+            if (imageValidation($_FILES["image"])) {
+
+
+            }
+
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -96,7 +113,7 @@
                 Description: <input type="text" name="description" value="<?= $row["description"] ?>" required>
                 <br>
                 <br>
-                Price: <input type="number" name="price" value="<?= $row['price'] ?>" required>
+                Price: <input type="number" step="0.01" name="price" value="<?= $row['price'] ?>" required>
                 <br>
                 <br>
                 <input type="file" name="image" placeholder="<?= trans("Image") ?>">
