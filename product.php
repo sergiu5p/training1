@@ -43,7 +43,7 @@
                 if (imageValidation($_FILES["image"])) {
 
                     $tmp_name = $_FILES["image"]["tmp_name"];
-                    $new_name = "img/".$id.".".$GLOBALS['$imageFileType'];
+                    $new_name = "img/".$id.".".$GLOBALS['imageFileType'];
 
                     @unlink($new_name);
 
@@ -70,17 +70,22 @@
             $price = sqlInjection($_POST["price"]);
             $stmt->bind_param("ssd", $title, $description, $price);
 
-            // extract the id of product
-            $query = "SELECT id FROM products ORDER BY id DESC LIMIT 1";
-            $result = $conn->query($query);
-            $result = $result->fetch_assoc();
-
             // check the image validation
             if (imageValidation($_FILES["image"])) {
 
+                $stmt->execute();
+                // extract the id of product
+                $query = "SELECT id FROM products ORDER BY id DESC LIMIT 1";
+                $result = $conn->query($query);
+                $id = $result->fetch_assoc()["id"];
 
+                $tmp_name = $_FILES["image"]["tmp_name"];
+                $new_name = "img/".$id.".".$GLOBALS['imageFileType'];
+
+                copy($tmp_name, $new_name);
+                $_SESSION["errors"] = [];
+                header("location: products.php");
             }
-
         }
     }
 ?>
@@ -116,7 +121,7 @@
                 Price: <input type="number" step="0.01" name="price" value="<?= $row['price'] ?>" required>
                 <br>
                 <br>
-                <input type="file" name="image" placeholder="<?= trans("Image") ?>">
+                <input type="file" name="image" placeholder="<?= trans("Image") ?>" required>
                 <br>
                 <br>
                 <input type="submit" name="save" value="<?= trans("Save") ?>">
