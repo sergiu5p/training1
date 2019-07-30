@@ -14,6 +14,7 @@
     ];
 
     if (isset($_GET["id"])) {
+
         $id = sqlInjection($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
@@ -21,7 +22,6 @@
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-
 
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
@@ -55,6 +55,8 @@
                     header("location: product.php?id=$id");
                 }
             }
+            $stmt->execute();
+            header("location: products.php");
         }
     } else {
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
@@ -72,7 +74,6 @@
 
             // check the image validation
             if (imageValidation($_FILES["image"])) {
-
                 $stmt->execute();
                 // extract the id of product
                 $query = "SELECT id FROM products ORDER BY id DESC LIMIT 1";
@@ -108,7 +109,7 @@
             <?php endforeach;?>
         <?php endif; ?>
         <div>
-            <form action="product.php" method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                 <br>
                 <br>
@@ -121,7 +122,7 @@
                 Price: <input type="number" step="0.01" name="price" value="<?= $row['price'] ?>" required>
                 <br>
                 <br>
-                <input type="file" name="image" placeholder="<?= trans("Image") ?>" required>
+                <input type="file" name="image" placeholder="<?= trans("Image") ?>" <?= !isset($_REQUEST['id']) ? 'required' : '' ?> >
                 <br>
                 <br>
                 <input type="submit" name="save" value="<?= trans("Save") ?>">
