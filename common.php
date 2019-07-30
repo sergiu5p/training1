@@ -24,7 +24,7 @@
         $target_dir = "img/";
         $target_file = $target_dir . basename($image["name"]);
         $uploadOk = 1;
-        $GLOBALS['$imageFileType'] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $GLOBALS['imageFileType'] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
 
         $check = getimagesize($image["tmp_name"]);
@@ -40,7 +40,7 @@
             $uploadOk = 0;
         }
         // Allow certain file formats
-        if ($GLOBALS['$imageFileType'] != "jpg" && $GLOBALS['$imageFileType'] != "png" && $GLOBALS['$imageFileType'] != "jpeg") {
+        if ($GLOBALS['imageFileType'] != "jpg" && $GLOBALS['imageFileType'] != "png" && $GLOBALS['imageFileType'] != "jpeg") {
             $_SESSION['errors'][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
             $uploadOk = 0;
         }
