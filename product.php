@@ -6,6 +6,34 @@
         exit();
     }
 
+    function imageValidation($image)
+    {
+        $target_dir = "img/";
+        $target_file = $target_dir . basename($image["name"]);
+        $uploadOk = 1;
+        $GLOBALS['imageFileType'] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+
+        $check = getimagesize($image["tmp_name"]);
+        if ($check) {
+            $uploadOk = 1;
+        } else {
+            $_SESSION['errors'][] =  "File is not an image.";
+            $uploadOk = 0;
+        }
+        // Check file size
+        if ($image["size"] > 500000) {
+            $_SESSION['errors'][] =  "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+        // Allow certain file formats
+        if ($GLOBALS['imageFileType'] != "jpg" && $GLOBALS['imageFileType'] != "png" && $GLOBALS['imageFileType'] != "jpeg") {
+            $_SESSION['errors'][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
+            $uploadOk = 0;
+        }
+        return boolval($uploadOk);
+    }
+
     $id = 0;
     $row = [
             'id' => "",
@@ -15,7 +43,7 @@
 
     if (isset($_GET["id"])) {
 
-        $id = sqlInjection($_GET["id"]);
+        $id = $_GET["id"];
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
@@ -27,14 +55,14 @@
             isset($_POST["image"]) || isset($_POST["save"])) {
 
             $_SESSION['errors'] = [];
-            $id = sqlInjection($_POST["id"]);
+            $id = $_POST["id"];
 
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
-            $title = sqlInjection($_POST["title"]);
-            $description = sqlInjection($_POST["description"]);
-            $price = sqlInjection($_POST["price"]);
-            $id = sqlInjection($_POST["id"]);
+            $title = $_POST["title"];
+            $description = $_POST["description"];
+            $price = $_POST["price"];
+            $id = $_POST["id"];
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
 
             if (isset($_FILES["image"])) {
@@ -67,9 +95,9 @@
             // insert the product into table
             $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($query);
-            $title = sqlInjection($_POST["title"]);
-            $description = sqlInjection($_POST["description"]);
-            $price = sqlInjection($_POST["price"]);
+            $title = $_POST["title"];
+            $description = $_POST["description"];
+            $price = $_POST["price"];
             $stmt->bind_param("ssd", $title, $description, $price);
 
             // check the image validation
