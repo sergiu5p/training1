@@ -17,6 +17,13 @@
         $query = "SELECT * FROM products";
         $result = $conn->query($query);
     }
+
+    $rows = [];
+    if (mysqli_num_rows($result)) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,38 +33,34 @@
         <title><?= trans("store") ?></title>
     </head>
     <body>
-        <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
-            <ul>
+        <ul>
+            <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
+
                 <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-                <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                    <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
-                <?php else: ?>
-                    <li><?= trans("Cart is empty"); ?></li>
-                <?php endif; ?>
                 <li><a href="products.php"><?= trans("products.php") ?></a></li>
-            </ul>
-        <?php else: ?>
-            <ul>
+            <?php else: ?>
+
                 <li><a href="login.php"><?= trans("Login") ?></a></li>
-                <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                    <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
-                <?php else: ?>
-                    <li><?= trans("Cart is empty"); ?></li>
-                <?php endif; ?>
-            </ul>
-        <?php endif; ?>
-        <div>
-            <?php if (mysqli_num_rows($result)): ?>
-                <?php while ( $row = $result->fetch_assoc() ):  ?>
-                    <div>
-                        <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= htmlspecialchars($row["id"]) ?>" width="150" height="150">
-                        <h4><?= htmlspecialchars($row["title"]) ?></h4>
-                        <p><?= htmlspecialchars($row["description"]) ?></p>
-                        <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
-                        <a href="index.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Add") ?></a>
-                    </div>
-                <?php endwhile; ?>
             <?php endif; ?>
+
+            <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
+
+                <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
+            <?php else: ?>
+
+                <li><?= trans("Cart is empty"); ?></li>
+            <?php endif; ?>
+        </ul>
+        <div>
+            <?php foreach ($rows as $row): ?>
+                <div>
+                    <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= htmlspecialchars($row["id"]) ?>" width="150" height="150">
+                    <h4><?= htmlspecialchars($row["title"]) ?></h4>
+                    <p><?= htmlspecialchars($row["description"]) ?></p>
+                    <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
+                    <a href="index.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Add") ?></a>
+                </div>
+            <?php endforeach; ?>
         </div>
     </body>
 </html>
