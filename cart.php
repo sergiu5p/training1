@@ -8,6 +8,7 @@
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
         header("location: index.php");
+        exit();
     } else {
         $in = join(',', array_fill(0, count($_SESSION["cartIds"]), '?'));
         $query = "SELECT * FROM products WHERE id IN ($in) ORDER BY id";
@@ -39,6 +40,7 @@
         mail($to, $sub, $msg, $headers);
         session_destroy();
         header("location: index.php");
+        exit();
     }
 ?>
 <!DOCTYPE html>
