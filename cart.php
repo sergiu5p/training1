@@ -31,7 +31,7 @@
         $message_products = "";
 
         while ($row = $result->fetch_assoc()) {
-            $message_products.="<h4>".$row['title']."</h4>";
+            $message_products.="<h4>".$row["title"]."</h4>";
             $message_products.="<h4>".$row["description"]."</h4>";
             $message_products.="<h4>".$row["price"]." $</h4>";
         }
@@ -73,7 +73,7 @@
         <div>
             <?php foreach ($rows as $row): ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= $row['id'] ?>" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= $row["id"] ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
