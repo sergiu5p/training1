@@ -79,7 +79,7 @@
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
-                    <a href="cart.php?id=<?= htmlspecialchars($row['id']) ?>">Remove</a>
+                    <a href="cart.php?id=<?= $row["id"] ?>">Remove</a>
                 </div>
             <?php endforeach; ?>
         </div>

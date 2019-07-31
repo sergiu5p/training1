@@ -29,6 +29,11 @@
     $query = "SELECT * FROM products";
     $result = $conn->query($query);
 
+    if (mysqli_num_rows($result)) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,8 +47,7 @@
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
         </ul>
-        <?php if (mysqli_num_rows($result)): ?>
-            <?php while ( $row = $result->fetch_assoc() ):  ?>
+            <?php foreach ($rows as $row): ?>
                 <div>
                     <img alt="<?= htmlspecialchars($row['title'])?>" src="img/<?= htmlspecialchars($row['id']) ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
@@ -52,11 +56,8 @@
                     <a href="product.php?id=<?= htmlspecialchars($row['id'])?>"><?= trans("Edit") ?></a>
                     <a href="products.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Delete") ?></a>
                 </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <?= "No product" ?>
-        <?php endif;?>
+            <?php endforeach; ?>
         <br>
-        <a href="<?= htmlspecialchars('product.php') ?>"><?= trans("Add") ?></a>
+        <a href="product.php"><?= trans("Add") ?></a>
     </body>
 </html>
