@@ -53,8 +53,8 @@
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
-                    <a href="product.php?id=<?= htmlspecialchars($row['id'])?>"><?= trans("Edit") ?></a>
-                    <a href="products.php?id=<?= htmlspecialchars($row['id']) ?>"><?= trans("Delete") ?></a>
+                    <a href="product.php?id=<?= $row['id'] ?>"><?= trans("Edit") ?></a>
+                    <a href="products.php?id=<?= $row['id'] ?>"><?= trans("Delete") ?></a>
                 </div>
             <?php endforeach; ?>
         <br>
