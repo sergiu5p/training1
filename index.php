@@ -41,7 +41,7 @@
                 <li><a href="login.php"><?= trans("Login") ?></a></li>
             <?php endif; ?>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
-                <li><a href="<?= htmlspecialchars("cart.php") ?>"><?= trans("Go to cart") ?></a></li>
+                <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
             <?php else: ?>
                 <li><?= trans("Cart is empty"); ?></li>
             <?php endif; ?>
