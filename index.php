@@ -49,7 +49,7 @@
         <div>
             <?php foreach ($rows as $row): ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= htmlspecialchars($row["id"]) ?>" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row["title"]) ?>" src="img/<?= $row["id"] ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
