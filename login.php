@@ -5,11 +5,12 @@
     if (isset($_GET["logout"])) {
         unset($_SESSION["logged_in"]);
         header("location: login.php");
+        exit();
     }
 
     if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
         header("location: products.php");
-
+        exit();
     }
 
     if (isset($_POST["login"])) {
@@ -19,6 +20,7 @@
         if ($username == ADMIN_USERNAME && $password == ADMIN_PASSWORD) {
             $_SESSION["logged_in"] = true;
             header("location: products.php");
+            exit();
         }
     }
 ?>
