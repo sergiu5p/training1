@@ -10,10 +10,9 @@
     {
         $target_dir = "img/";
         $target_file = $target_dir . basename($image["name"]);
-        $uploadOk = 1;
         $GLOBALS['imageFileType'] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        // Check if image file is a actual image or fake image
 
+        // Check if image file is a actual image or fake image
         $check = getimagesize($image["tmp_name"]);
         if ($check) {
             $uploadOk = 1;
@@ -36,9 +35,9 @@
 
     $id = 0;
     $row = [
-            'id' => "",
-            'title' => "",
-            'description' => ""
+            "id" => "",
+            "title" => "",
+            "description" => ""
     ];
 
     if (isset($_GET["id"])) {
@@ -71,7 +70,7 @@
                 if (imageValidation($_FILES["image"])) {
 
                     $tmp_name = $_FILES["image"]["tmp_name"];
-                    $new_name = "img/".$id.".".$GLOBALS['imageFileType'];
+                    $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
                     @unlink($new_name);
 
@@ -109,7 +108,7 @@
                 $id = $result->fetch_assoc()["id"];
 
                 $tmp_name = $_FILES["image"]["tmp_name"];
-                $new_name = "img/".$id.".".$GLOBALS['imageFileType'];
+                $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
                 copy($tmp_name, $new_name);
                 $_SESSION["errors"] = [];
@@ -131,14 +130,14 @@
             <li><a href="products.php">products.php</a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
         </ul>
-        <?php if (isset($_SESSION['errors'])): ?>
-            <?php foreach ($_SESSION['errors'] as $e): ?>
+        <?php if (isset($_SESSION["errors"])): ?>
+            <?php foreach ($_SESSION["errors"] as $e): ?>
                 <?= trans($e); ?>
             <?php endforeach;?>
         <?php endif; ?>
         <div>
             <form method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                <input type="hidden" name="id" value="<?= $row["id"] ?>">
                 <br>
                 <br>
                 Title: <input type="text" name="title" value="<?= $row["title"] ?>" required>
@@ -147,10 +146,10 @@
                 Description: <input type="text" name="description" value="<?= $row["description"] ?>" required>
                 <br>
                 <br>
-                Price: <input type="number" step="0.01" name="price" value="<?= $row['price'] ?>" required>
+                Price: <input type="number" step="0.01" name="price" value="<?= $row["price"] ?>" required>
                 <br>
                 <br>
-                <input type="file" name="image" placeholder="<?= trans("Image") ?>" <?= !isset($_REQUEST['id']) ? 'required' : '' ?> >
+                <input type="file" name="image" placeholder="<?= trans("Image") ?>" <?= !isset($_REQUEST["id"]) ? "required" : "" ?> >
                 <br>
                 <br>
                 <input type="submit" name="save" value="<?= trans("Save") ?>">
