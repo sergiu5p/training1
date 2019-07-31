@@ -60,7 +60,7 @@
         <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
             <ul>
                 <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-                <li><a href="products.php">products.php</a></li>
+                <li><a href="products.php"><?= trans("products.php") ?></a></li>
             </ul>
         <?php else: ?>
             <ul>
