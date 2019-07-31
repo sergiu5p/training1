@@ -36,7 +36,7 @@
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
         </ul>
         <div>
-            <form action="<?= htmlspecialchars("login.php") ?>" method="POST">
+            <form action="login.php" method="POST">
                 <input type="text" name="username" placeholder="<?= trans("Username") ?>" required>
                 <input type="password" name="password" placeholder="<?= trans("Password") ?>" required>
                 <button name="login"><?= trans("Login") ?></button>
