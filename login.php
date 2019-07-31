@@ -1,6 +1,6 @@
 <?php
-    require_once "config.php";
     require_once "common.php";
+    require_once "config.php";
 
     if (isset($_GET["logout"])) {
         unset($_SESSION["logged_in"]);
