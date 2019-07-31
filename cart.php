@@ -57,25 +57,23 @@
         <title><?= trans("Cart") ?></title>
     </head>
     <body>
-        <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
-            <ul>
-                <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-                <li><a href="products.php"><?= trans("products.php") ?></a></li>
-            </ul>
-        <?php else: ?>
-            <ul>
-                <li>
-                    <a href="login.php"><?= trans("Login") ?></a>
-                </li>
-                <li>
-                    <a href="<?= htmlspecialchars('index.php') ?>"><?= trans("index.php") ?></a>
-                </li>
-            </ul>
-        <?php endif; ?>
+        <ul>
+            <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
+                    <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+                    <li><a href="products.php"><?= trans("products.php") ?></a></li>
+            <?php else: ?>
+                    <li>
+                        <a href="login.php"><?= trans("Login") ?></a>
+                    </li>
+                    <li>
+                        <a href="index.php"><?= trans("index.php") ?></a>
+                    </li>
+            <?php endif; ?>
+        </ul>
         <div>
             <?php foreach ($rows as $row): ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= htmlspecialchars($row['id']) ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
