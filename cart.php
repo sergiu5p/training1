@@ -2,9 +2,8 @@
     require_once "common.php";
     require_once "config.php";
 
-    if (isset($_GET["remove"])) {
-        $remove = strip_tags($_GET["remove"]);
-        unset($_SESSION["cartIds"][array_search($remove, $_SESSION["cartIds"])]);
+    if (isset($_GET["id"])) {
+        unset($_SESSION["cartIds"][array_search($_GET["id"], $_SESSION["cartIds"])]);
     }
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
@@ -72,7 +71,7 @@
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
-                    <a href="cart.php?remove=<?= htmlspecialchars($row['id']) ?>">Remove</a>
+                    <a href="cart.php?id=<?= htmlspecialchars($row['id']) ?>">Remove</a>
                 </div>
             <?php endwhile; ?>
         </div>
