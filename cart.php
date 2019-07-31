@@ -16,6 +16,12 @@
         $stmt->bind_param(str_repeat('i', count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
         $stmt->execute();
         $result = $stmt->get_result();
+        $rows = [];
+        if (mysqli_num_rows($result)) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
     }
 
     if (isset($_POST["checkout"])) {
@@ -32,7 +38,7 @@
 
         $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
         $to = ADMIN_EMAIL;
-        $sub = "New order";
+        $sub = trans("New order");
         $msg = $_SESSION["message"];
         $headers = "From: ".$email."\r\n";
         $headers .= "MIME-Version: 1.0\r\n";
@@ -67,17 +73,17 @@
             </ul>
         <?php endif; ?>
         <div>
-            <?php while ( $row = $result->fetch_assoc() ):  ?>
+            <?php foreach ($rows as $row): ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img\<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row['title']) ?>" src="img/<?= htmlspecialchars($row['id']) ?>.jpg" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
                     <a href="cart.php?id=<?= htmlspecialchars($row['id']) ?>">Remove</a>
                 </div>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </div>
-        <form action="<?= htmlspecialchars("cart.php") ?>" method="POST">
+        <form action="cart.php" method="POST">
             <input type="text" name="name" placeholder="<?= trans("Name") ?>" required>
             <br>
             <br>
