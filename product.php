@@ -10,24 +10,24 @@
     {
         $target_dir = "img/";
         $target_file = $target_dir . basename($image["name"]);
-        $GLOBALS['imageFileType'] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $GLOBALS["imageFileType"] = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
         // Check if image file is a actual image or fake image
         $check = getimagesize($image["tmp_name"]);
         if ($check) {
             $uploadOk = 1;
         } else {
-            $_SESSION['errors'][] =  "File is not an image.";
+            $_SESSION["errors"][] =  "File is not an image.";
             $uploadOk = 0;
         }
         // Check file size
         if ($image["size"] > 500000) {
-            $_SESSION['errors'][] =  "Sorry, your file is too large.";
+            $_SESSION["errors"][] =  "Sorry, your file is too large.";
             $uploadOk = 0;
         }
         // Allow certain file formats
-        if ($GLOBALS['imageFileType'] != "jpg" && $GLOBALS['imageFileType'] != "png" && $GLOBALS['imageFileType'] != "jpeg") {
-            $_SESSION['errors'][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
+        if ($GLOBALS["imageFileType"] != "jpg" && $GLOBALS["imageFileType"] != "png" && $GLOBALS["imageFileType"] != "jpeg") {
+            $_SESSION["errors"][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
             $uploadOk = 0;
         }
         return boolval($uploadOk);
@@ -42,7 +42,7 @@
 
     if (isset($_GET["id"])) {
 
-        $id = $_GET["id"];
+        $id = strip_tags($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
@@ -53,7 +53,7 @@
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
 
-            $_SESSION['errors'] = [];
+            $_SESSION["errors"] = [];
             $id = $_POST["id"];
 
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
@@ -76,7 +76,7 @@
 
                     copy($tmp_name, $new_name);
                     $stmt->execute();
-                    $_SESSION['errors'] = [];
+                    $_SESSION["errors"] = [];
                     header("location: products.php");
                 } else {
                     header("location: product.php?id=$id");
@@ -89,7 +89,7 @@
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
 
-            $_SESSION['errors'] = [];
+            $_SESSION["errors"] = [];
 
             // insert the product into table
             $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
@@ -140,13 +140,13 @@
                 <input type="hidden" name="id" value="<?= $row["id"] ?>">
                 <br>
                 <br>
-                Title: <input type="text" name="title" value="<?= $row["title"] ?>" required>
+                Title: <input type="text" name="title" value="<?= htmlspecialchars($row["title"]) ?>" required>
                 <br>
                 <br>
-                Description: <input type="text" name="description" value="<?= $row["description"] ?>" required>
+                Description: <input type="text" name="description" value="<?= htmlspecialchars($row["description"]) ?>" required>
                 <br>
                 <br>
-                Price: <input type="number" step="0.01" name="price" value="<?= $row["price"] ?>" required>
+                Price: <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($row["price"]) ?>" required>
                 <br>
                 <br>
                 <input type="file" name="image" placeholder="<?= trans("Image") ?>" <?= !isset($_REQUEST["id"]) ? "required" : "" ?> >
