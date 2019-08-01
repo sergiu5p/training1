@@ -3,6 +3,7 @@
     require_once "config.php";
 
     if (isset($_GET["logout"])) {
+        unset($_SESSION["cartIds"]);
         unset($_SESSION["logged_in"]);
         header("location: login.php");
         exit();
