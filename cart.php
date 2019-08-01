@@ -66,10 +66,10 @@
                     <li>
                         <a href="login.php"><?= trans("Login") ?></a>
                     </li>
-                    <li>
-                        <a href="index.php"><?= trans("index.php") ?></a>
-                    </li>
             <?php endif; ?>
+            <li>
+                <a href="index.php"><?= trans("index.php") ?></a>
+            </li>
         </ul>
         <div>
             <?php foreach ($rows as $row): ?>
