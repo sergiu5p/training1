@@ -129,6 +129,11 @@
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
             <li><a href="products.php">products.php</a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
+            <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
+                <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
+            <?php else: ?>
+                <li><?= trans("Cart is empty"); ?></li>
+            <?php endif; ?>
         </ul>
         <?php if (isset($_SESSION["errors"])): ?>
             <?php foreach ($_SESSION["errors"] as $e): ?>
