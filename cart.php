@@ -17,11 +17,6 @@
         $stmt->execute();
         $result = $stmt->get_result();
         $rows = [];
-        if (mysqli_num_rows($result)) {
-            while ($row = $result->fetch_assoc()) {
-                $rows[] = $row;
-            }
-        }
     }
 
     if (isset($_POST["checkout"])) {
@@ -47,6 +42,12 @@
         unset($_SESSION["cartIds"]);
         header("location: index.php");
         exit();
+    }
+
+    if (mysqli_num_rows($result)) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
     }
 ?>
 <!DOCTYPE html>
