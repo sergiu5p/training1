@@ -1,7 +1,7 @@
 <?php
     require_once "common.php";
 
-    if ( isset($_GET["id"]) ) {
+    if (isset($_GET["id"])) {
         $_SESSION["cartIds"][] = strip_tags($_GET["id"]);
     }
 
