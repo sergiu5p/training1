@@ -14,8 +14,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
     } else {
-        $query = "SELECT * FROM products";
-        $result = $conn->query($query);
+        $result = $conn->query("SELECT * FROM products");
     }
 
     $rows = [];
