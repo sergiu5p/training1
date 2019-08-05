@@ -103,8 +103,7 @@
             if (imageValidation($_FILES["image"])) {
                 $stmt->execute();
                 // extract the id of product
-                $query = "SELECT id FROM products ORDER BY id DESC LIMIT 1";
-                $result = $conn->query($query);
+                $result = $conn->query("SELECT id FROM products ORDER BY id DESC LIMIT 1");
                 $id = $result->fetch_assoc()["id"];
 
                 $tmp_name = $_FILES["image"]["tmp_name"];
