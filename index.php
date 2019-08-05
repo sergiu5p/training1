@@ -11,10 +11,10 @@
         $query = "SELECT * FROM products WHERE id NOT IN ($in) ORDER BY id";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(str_repeat("i", count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
-        $stmt->execute();
+        $stmt->execute() or die($conn->error);
         $result = $stmt->get_result();
     } else {
-        $result = $conn->query("SELECT * FROM products");
+        $result = $conn->query("SELECT * FROM products") or die($conn->error);
     }
 
     $rows = [];
