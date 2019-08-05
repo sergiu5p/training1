@@ -10,7 +10,7 @@
 
     $result = $conn->query("SELECT * FROM orders");
     if (mysqli_num_rows($result)) {
-        while ($row = $result->fetch_assoc() ) {
+        while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
     }
