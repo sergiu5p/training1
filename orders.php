@@ -40,7 +40,7 @@
                 <h4><?= trans("Comments: ").$row["comments"] ?></h4>
                 <h4><?= trans("Summed price: ").strval($row["summed_price"]) ?> $</h4>
                 <h4><?= trans("Creation date: ").$row["creation_date"] ?></h4>
-                <a href="order.php"><?= trans("View") ?></a>
+                <a href="order.php?id=<?= $row["Oid"] ?>"><?= trans("View") ?></a>
             </div>
         <?php endforeach; ?>
     </body>
