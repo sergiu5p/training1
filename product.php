@@ -54,8 +54,6 @@
             isset($_POST["image"]) || isset($_POST["save"])) {
 
             $_SESSION["errors"] = [];
-            $id = $_POST["id"];
-
             $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
             $stmt = $conn->prepare($query) or die($conn->error);
             $title = $_POST["title"];
@@ -78,12 +76,15 @@
                     $stmt->execute();
                     $_SESSION["errors"] = [];
                     header("location: products.php");
+                    exit();
                 } else {
                     header("location: product.php?id=$id");
+                    exit();
                 }
             }
             $stmt->execute();
             header("location: products.php");
+            exit();
         }
     } else {
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
@@ -126,7 +127,7 @@
     <body>
         <ul>
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-            <li><a href="products.php">products.php</a></li>
+            <li><a href="products.php"><?= trans("products.php") ?></a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
             <li><a href="orders.php"><?= trans("orders.php") ?></a></li>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
