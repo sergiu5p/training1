@@ -8,7 +8,7 @@
 
     $rows = [];
 
-    $result = $conn->query("SELECT * FROM orders");
+    $result = $conn->query("SELECT * FROM orders") or die($conn->error);
     if (mysqli_num_rows($result)) {
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
