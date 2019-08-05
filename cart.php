@@ -75,12 +75,11 @@
     <body>
         <ul>
             <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
-                    <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-                    <li><a href="products.php"><?= trans("products.php") ?></a></li>
+                <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+                <li><a href="products.php"><?= trans("products.php") ?></a></li>
+                <li><a href="orders.php"><?= trans("orders.php") ?></a></li>
             <?php else: ?>
-                    <li>
-                        <a href="login.php"><?= trans("Login") ?></a>
-                    </li>
+                    <li><a href="login.php"><?= trans("Login") ?></a></li>
             <?php endif; ?>
             <li>
                 <a href="index.php"><?= trans("index.php") ?></a>
