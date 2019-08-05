@@ -25,7 +25,7 @@
     <body>
         <ul>
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-            <li><a href="products.php">products.php</a></li>
+            <li><a href="products.php"><?= trans("products.php") ?></a></li>
             <li><a href="index.php"><?= trans("index.php") ?></a></li>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
                 <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
