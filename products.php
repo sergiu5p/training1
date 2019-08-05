@@ -26,8 +26,8 @@
     }
 
     // select all the products
-    $query = "SELECT * FROM products" or die($conn->error);
-    $result = $conn->query($query);
+    $query = "SELECT * FROM products";
+    $result = $conn->query($query) or die($conn->error);
 
     if (mysqli_num_rows($result)) {
         while ($row = $result->fetch_assoc()) {
