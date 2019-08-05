@@ -21,12 +21,12 @@
         $query = "DELETE FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
-        $stmt->execute();
+        $stmt->execute() or die($conn->error);
         $result = $stmt->get_result();
     }
 
     // select all the products
-    $query = "SELECT * FROM products";
+    $query = "SELECT * FROM products" or die($conn->error);
     $result = $conn->query($query);
 
     if (mysqli_num_rows($result)) {
