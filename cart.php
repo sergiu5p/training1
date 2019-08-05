@@ -20,7 +20,7 @@
     }
 
     if (isset($_POST["checkout"])) {
-        $query = "INSERT INTO orders (name, email, comments, summed_price) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO orders (name, email, comments, summed_price, creation_date) VALUES (?, ?, ?, ?, CURDATE())";
         $name = strip_tags($_POST["name"]);
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
