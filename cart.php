@@ -20,17 +20,32 @@
     }
 
     if (isset($_POST["checkout"])) {
+        $query = "INSERT INTO orders (name, email, comments, summed_price) VALUES (?, ?, ?, ?)";
         $name = strip_tags($_POST["name"]);
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
+        $summed_price = 0;
         $message_products = "";
 
         while ($row = $result->fetch_assoc()) {
             $message_products.="<h4>".$row["title"]."</h4>";
             $message_products.="<h4>".$row["description"]."</h4>";
             $message_products.="<h4>".$row["price"]." $</h4>";
+            // Extracting summed_price from query "SELECT * FROM products WHERE id IN $_SESSION["cartIds"]"
+            // Without JOIN and without collecting data from order_product table.
+            $summed_price += $row["price"];
         }
 
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssd", $name, $email, $comments, $summed_price);
+        $stmt->execute();
+        // select the last order id
+        $result = $conn->query("SELECT Oid FROM orders ORDER BY Oid DESC LIMIT 1");
+        $lastOrderId = $result->fetch_assoc()["Oid"];
+        // insert into order_product last order id and all products that have been ordered
+        foreach ($_SESSION["cartIds"] as $pID) {
+            $conn->query("INSERT INTO order_product (orderID, productId) VALUES ($lastOrderId, $pID)");
+        }
         $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
         $to = ADMIN_EMAIL;
         $sub = trans("New order");
