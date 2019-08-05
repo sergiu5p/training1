@@ -12,11 +12,14 @@
     }
 
     $rows = [];
-    $id = $_GET["id"];
-    $result = $conn->query("SELECT products.title, orders.name, orders.email, orders.comments FROM order_product RIGHT 
+    $id = strip_tags($_GET["id"]);
+    $query = "SELECT products.title, orders.name, orders.email, orders.comments FROM order_product RIGHT 
         JOIN products ON order_product.productID=products.id RIGHT JOIN orders ON order_product.orderID=orders.Oid 
-        WHERE order_product.orderID=$id") or die($conn->error);
-
+        WHERE order_product.orderID=$id" or die($conn->error);
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute() or die($conn->error);
+    $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
         $rows[] = $row;
     }
