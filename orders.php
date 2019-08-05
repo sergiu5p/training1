@@ -15,7 +15,6 @@
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,14 +23,25 @@
         <title><?= trans("orders") ?></title>
     </head>
     <body>
-    <?php foreach ($rows as $row): ?>
-        <div class="order">
-            <h4><?= $row["name"] ?></h4>
-            <h4><?= $row["email"] ?></h4>
-            <h4><?= $row["comments"] ?></h4>
-            <h4><?= strval($row["summed_price"]) + " $" ?></h4>
-            <h4><?= $row["creation_date"] ?></h4>
-        </div>
-    <?php endforeach; ?>
+        <ul>
+            <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
+            <li><a href="products.php">products.php</a></li>
+            <li><a href="index.php"><?= trans("index.php") ?></a></li>
+            <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
+                <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
+            <?php else: ?>
+                <li><?= trans("Cart is empty"); ?></li>
+            <?php endif; ?>
+        </ul>
+        <?php foreach ($rows as $row): ?>
+            <div class="order">
+                <h4><?= trans("Name: ").$row["name"] ?></h4>
+                <h4><?= trans("E-mail: ").$row["email"] ?></h4>
+                <h4><?= trans("Comments: ").$row["comments"] ?></h4>
+                <h4><?= trans("Summed price: ").strval($row["summed_price"]) ?> $</h4>
+                <h4><?= trans("Creation date: ").$row["creation_date"] ?></h4>
+                <a href="order.php"><?= trans("View") ?></a>
+            </div>
+        <?php endforeach; ?>
     </body>
 </html>
