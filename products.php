@@ -10,7 +10,7 @@
 
     // delete product
     if (isset($_GET["id"])) {
-        $id = strip_tags($_GET["id"]);
+        $id = $_GET["id"];
         $fileType = ["jpg", "jpeg", "png"];
         // Sorry, only JPG, JPEG & PNG files are allowed
 
@@ -18,6 +18,15 @@
             @unlink("img/$id.$e");
         }
 
+
+        // Delete all foreign keys associated with that product
+        $query = "DELETE FROM order_product WHERE product_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute() or die($conn->error);
+        $result = $stmt->get_result();
+
+        // Delete the product
         $query = "DELETE FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
@@ -26,7 +35,7 @@
     }
 
     // select all the products
-    $query = "SELECT * FROM products";
+    $query = "SELECT * FROM products ORDER BY title";
     $result = $conn->query($query) or die($conn->error);
 
     if (mysqli_num_rows($result)) {
