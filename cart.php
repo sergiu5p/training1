@@ -40,11 +40,11 @@
         $stmt->bind_param("sssd", $name, $email, $comments, $summed_price);
         $stmt->execute() or die($conn->error);
         // select the last order id
-        $result = $conn->query("SELECT Oid FROM orders ORDER BY Oid DESC LIMIT 1") or die($conn->error);
-        $lastOrderId = $result->fetch_assoc()["Oid"];
+        $result = $conn->query("SELECT id FROM orders ORDER BY id DESC LIMIT 1") or die($conn->error);
+        $lastOrderId = $result->fetch_assoc()["id"];
         // insert into order_product last order id and all products that have been ordered
         foreach ($_SESSION["cartIds"] as $pID) {
-            $conn->query("INSERT INTO order_product (orderID, productId) VALUES ($lastOrderId, $pID)") or die($conn->error);
+            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastOrderId, $pID)") or die($conn->error);
         }
         $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
         $to = ADMIN_EMAIL;
