@@ -20,7 +20,8 @@
     }
 
     if (isset($_POST["checkout"])) {
-        $query = "INSERT INTO orders (name, email, comments, summed_price, creation_date) VALUES (?, ?, ?, ?, CURDATE())";
+        $query = "INSERT INTO orders (name, email, comments, summed_price, creation_date) VALUES 
+        (?, ?, ?, ?, CURDATE())";
         $name = strip_tags($_POST["name"]);
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
@@ -44,7 +45,8 @@
         $lastOrderId = $result->fetch_assoc()["id"];
         // insert into order_product last order id and all products that have been ordered
         foreach ($_SESSION["cartIds"] as $pID) {
-            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastOrderId, $pID)") or die($conn->error);
+            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastOrderId, $pID)")
+            or die($conn->error);
         }
         $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
         $to = ADMIN_EMAIL;
