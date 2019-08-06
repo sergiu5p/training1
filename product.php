@@ -62,12 +62,12 @@
             $id = strip_tags($_POST["id"]);
             $stmt->bind_param("ssdi", $title, $description, $price, $id);
 
-            if (isset($_FILES["image"])) {
+            if (isset($_POST["image"])) {
 
                 // Check the image validation
-                if (imageValidation($_FILES["image"])) {
+                if (imageValidation($_POST["image"])) {
 
-                    $tmp_name = $_FILES["image"]["tmp_name"];
+                    $tmp_name = $_POST["image"]["tmp_name"];
                     $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
                     @unlink($new_name);
