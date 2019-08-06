@@ -15,7 +15,7 @@
     $id = strip_tags($_GET["id"]);
     $query = "SELECT products.title, orders.name, orders.email, orders.comments FROM order_product RIGHT 
         JOIN products ON order_product.productID=products.id RIGHT JOIN orders ON order_product.orderID=orders.Oid 
-        WHERE order_product.orderID=$id";
+        WHERE order_product.orderID=?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute() or die($conn->error);
