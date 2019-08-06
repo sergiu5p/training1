@@ -26,7 +26,8 @@
             $uploadOk = 0;
         }
         // Allow certain file formats
-        if ($GLOBALS["imageFileType"] != "jpg" && $GLOBALS["imageFileType"] != "png" && $GLOBALS["imageFileType"] != "jpeg") {
+        if ($GLOBALS["imageFileType"] != "jpg" && $GLOBALS["imageFileType"]
+        != "png" && $GLOBALS["imageFileType"] != "jpeg") {
             $_SESSION["errors"][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
             $uploadOk = 0;
         }
