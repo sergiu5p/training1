@@ -3,7 +3,10 @@
     require_once "config.php";
 
     if (isset($_GET["id"])) {
-        unset($_SESSION["cartIds"][array_search($_GET["id"], $_SESSION["cartIds"])]);
+        $verification = array_search($_GET["id"], $_SESSION["cartIds"]);
+        if (gettype($verification) != "boolean"){
+            unset($_SESSION["cartIds"][$verification]);
+        }
     }
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
