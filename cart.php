@@ -12,15 +12,14 @@
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
         header("location: index.php");
         exit();
-    } else {
-        $in = join(",", array_fill(0, count($_SESSION["cartIds"]), "?"));
-        $query = "SELECT * FROM products WHERE id IN ($in) ORDER BY title";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param(str_repeat("i", count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
-        $stmt->execute() or die($conn->error);
-        $result = $stmt->get_result();
-        $rows = [];
     }
+    $in = join(",", array_fill(0, count($_SESSION["cartIds"]), "?"));
+    $query = "SELECT * FROM products WHERE id IN ($in) ORDER BY title";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param(str_repeat("i", count($_SESSION["cartIds"])), ...$_SESSION["cartIds"]);
+    $stmt->execute() or die($conn->error);
+    $result = $stmt->get_result();
+    $rows = [];
 
     if (isset($_POST["checkout"])) {
         $query = "INSERT INTO orders (name, email, comments, summed_price, creation_date) VALUES 
