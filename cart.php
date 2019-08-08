@@ -4,7 +4,7 @@
 
     if (isset($_GET["id"])) {
         $index = array_search($_GET["id"], $_SESSION["cartIds"]);
-        if ($index !== "boolean"){
+        if ($index !== false){
             unset($_SESSION["cartIds"][$index]);
         }
     }
