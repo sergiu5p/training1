@@ -4,6 +4,7 @@
     unset($_SESSION["errors"]);
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+
         header("location: login.php");
         exit();
     }
@@ -12,6 +13,7 @@
 
     // delete product
     if (isset($_GET["id"])) {
+
         $id = strip_tags($_GET["id"]);
 
         // Get image extension
@@ -45,6 +47,7 @@
     $result = $conn->query($query) or die($conn->error);
 
     if (mysqli_num_rows($result)){
+
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
