@@ -13,6 +13,7 @@
         header("location: index.php");
         exit();
     }
+
     $in = join(",", array_fill(0, count($_SESSION["cartIds"]), "?"));
     $query = "SELECT * FROM products WHERE id IN ($in) ORDER BY id";
     $stmt = $conn->prepare($query);
@@ -20,6 +21,12 @@
     $stmt->execute() or die($conn->error);
     $result = $stmt->get_result();
     $rows = [];
+
+    $pageURL = "http";
+
+    if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
+        $pageURL = "s";
+    }
 
     if (isset($_POST["checkout"])) {
 
@@ -33,8 +40,8 @@
         $message_products = "";
         while ($row = $result->fetch_assoc()) {
 
-            $image = "http://localhost/img/".$row["id"].".".$row["image_extension"];
-            $message_products .= "<img src=$image>";
+            $image = "<img src=".'"'.$pageURL."://".$_SERVER['HTTP_HOST']."/img/".$row['id'].'.'.$row["image_extension"].'"'.">";
+            $message_products .= $image;
             $message_products.="<h4>".$row["title"]."</h4>";
             $message_products.="<h4>".$row["description"]."</h4>";
             $message_products.="<h4>".$row["price"]." $</h4>";
@@ -44,11 +51,11 @@
         $stmt->bind_param("sss", $name, $email, $comments);
         $stmt->execute() or die($conn->error);
         // select the last order id
-        $result = $conn->query("SELECT id FROM orders ORDER BY id DESC LIMIT 1") or die($conn->error);
-        $lastOrderId = $result->fetch_assoc()["id"];
+        $result = $conn->query("SELECT LAST_INSERT_ID()");
+        $lastID = $result->fetch_assoc()["LAST_INSERT_ID()"];
         // insert into order_product last order id and all products that have been ordered
         foreach ($_SESSION["cartIds"] as $pID) {
-            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastOrderId, $pID)")
+            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastID, $pID)")
             or die($conn->error);
         }
         $_SESSION["message"] = "<h4>".$message_products."<h4>";
