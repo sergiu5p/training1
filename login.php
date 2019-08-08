@@ -45,7 +45,7 @@
             <?php endif; ?>
         </ul>
         <div>
-            <form action="login.php" method="POST">
+            <form method="POST">
                 <input type="text" name="username" placeholder="<?= trans("Username") ?>" required>
                 <input type="password" name="password" placeholder="<?= trans("Password") ?>" required>
                 <button name="login"><?= trans("Login") ?></button>
