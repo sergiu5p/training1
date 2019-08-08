@@ -6,6 +6,7 @@
         exit();
     }
 
+    // Function for validation the upload images
     function imageValidation($image)
     {
         $target_dir = "img/";
@@ -62,14 +63,15 @@
                     $tmp_name = $_FILES["image"]["tmp_name"];
                     $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
+                    // Delete the old image
                     @unlink($new_name);
 
+                    // Upload the new image
                     copy($tmp_name, $new_name);
-                    $stmt->execute() or die($conn->error);
+
                     $_SESSION["errors"] = [];
-                    header("location: products.php");
-                    exit();
                 } else {
+
                     header("location: product.php?id=$id");
                     exit();
                 }
