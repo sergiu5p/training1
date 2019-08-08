@@ -54,15 +54,6 @@
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
 
-            $_SESSION["errors"] = [];
-            $query = "UPDATE products SET title=?, description=?, price=? WHERE id=?";
-            $stmt = $conn->prepare($query);
-            $title = strip_tags($_POST["title"]);
-            $description = strip_tags($_POST["description"]);
-            $price = strip_tags($_POST["price"]);
-            $id = strip_tags($_POST["id"]);
-            $stmt->bind_param("ssdi", $title, $description, $price, $id);
-
             if ($_FILES["image"]["name"]) {
 
                 // Check the image validation
@@ -83,6 +74,16 @@
                     exit();
                 }
             }
+
+            $_SESSION["errors"] = [];
+            $query = "UPDATE products SET title=?, description=?, price=?, image_extension=? WHERE id=?";
+            $stmt = $conn->prepare($query);
+            $title = strip_tags($_POST["title"]);
+            $description = strip_tags($_POST["description"]);
+            $price = strip_tags($_POST["price"]);
+            $id = strip_tags($_POST["id"]);
+            $stmt->bind_param("ssdsi", $title, $description, $price, $GLOBALS["imageFileType"], $id);
+
             $stmt->execute() or die($conn->error);
             header("location: products.php");
             exit();
@@ -93,28 +94,29 @@
 
             $_SESSION["errors"] = [];
 
-            // insert the product into table
-            $query = "INSERT INTO products (title, description, price) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $title = strip_tags($_POST["title"]);
-            $description = strip_tags($_POST["description"]);
-            $price = strip_tags($_POST["price"]);
-            $stmt->bind_param("ssd", $title, $description, $price);
-
             // check the image validation
             if (imageValidation($_FILES["image"])) {
-                $stmt->execute() or die($conn->error);
                 // extract the id of product
-                $result = $conn->query("SELECT id FROM products ORDER BY id DESC LIMIT 1") or die($conn->error);
-                $id = $result->fetch_assoc()["id"];
+                //$result = $conn->query("SELECT id FROM products ORDER BY id DESC LIMIT 1") or die($conn->error);
+                //$id = $result->fetch_assoc()["id"];
 
                 $tmp_name = $_FILES["image"]["tmp_name"];
                 $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
                 copy($tmp_name, $new_name);
                 $_SESSION["errors"] = [];
-                header("location: products.php");
             }
+
+            // insert the product into table
+            $query = "INSERT INTO products (title, description, price, image_extension) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $title = strip_tags($_POST["title"]);
+            $description = strip_tags($_POST["description"]);
+            $price = strip_tags($_POST["price"]);
+            $stmt->bind_param("ssds", $title, $description, $price, $GLOBALS["imageFileType"]);
+            $stmt->execute() or die($conn->error);
+            header("location: products.php");
+            exit();
         }
     }
 ?>
