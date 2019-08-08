@@ -35,10 +35,12 @@
     }
 
     // select all the products
-    $query = "SELECT * FROM products ORDER BY title";
+    $query = "SELECT * FROM products ORDER BY id";
     $result = $conn->query($query) or die($conn->error);
 
-    if (mysqli_num_rows($result)) {
+    $rows = [];
+
+    if (mysqli_num_rows($result)){
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
