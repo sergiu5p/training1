@@ -22,23 +22,26 @@
     $rows = [];
 
     if (isset($_POST["checkout"])) {
-        // MAX 120 characters per line
+
+        // MAX 120 characters in one line
         $query = "INSERT INTO orders (name, email, comments, creation_date) 
             VALUES 
-            (?, ?, ?, ?, CURDATE())";
+            (?, ?, ?, CURDATE())";
         $name = strip_tags($_POST["name"]);
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
         $message_products = "";
-
         while ($row = $result->fetch_assoc()) {
+
+            $image = "http://localhost/img/".$row["id"].".".$row["image_extension"];
+            $message_products .= "<img src=$image>";
             $message_products.="<h4>".$row["title"]."</h4>";
             $message_products.="<h4>".$row["description"]."</h4>";
             $message_products.="<h4>".$row["price"]." $</h4>";
         }
 
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssd", $name, $email, $comments);
+        $stmt->bind_param("sss", $name, $email, $comments);
         $stmt->execute() or die($conn->error);
         // select the last order id
         $result = $conn->query("SELECT id FROM orders ORDER BY id DESC LIMIT 1") or die($conn->error);
@@ -48,7 +51,10 @@
             $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastOrderId, $pID)")
             or die($conn->error);
         }
-        $_SESSION["message"] = $message_products."<h4>".$name."</h4>"."<h4>".$email."</h4>"."<h4>".$comments."</h4>";
+        $_SESSION["message"] = "<h4>".$message_products."<h4>";
+        $_SESSION["message"] .= "<h4>".$name."</h4>";
+        $_SESSION["message"] .= "<h4>".$email."</h4>";
+        $_SESSION["message"] .= "<h4>".$comments."</h4>";
         $to = ADMIN_EMAIL;
         $sub = trans("New order");
         $msg = $_SESSION["message"];
@@ -98,7 +104,7 @@
                 </div>
             <?php endforeach; ?>
         </div>
-        <form action="cart.php" method="POST">
+        <form method="POST">
             <input type="text" name="name" placeholder="<?= trans("Name") ?>" required>
             <br>
             <br>
