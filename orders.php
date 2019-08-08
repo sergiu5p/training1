@@ -8,7 +8,10 @@
 
     $rows = [];
 
-    $result = $conn->query("SELECT * FROM orders") or die($conn->error);
+    $result = $conn->query("SELECT orders.*, SUM(price) AS summed_price FROM order_product JOIN orders ON 
+        order_product.order_id=orders.id JOIN products ON order_product.product_id=products.id GROUP BY 
+        order_product.order_id") or die($conn->error);
+
     if (mysqli_num_rows($result)) {
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
