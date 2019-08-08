@@ -12,28 +12,32 @@
 
     // delete product
     if (isset($_GET["id"])) {
-        $id = $_GET["id"];
-        $fileType = ["jpg", "jpeg", "png"];
-        // Sorry, only JPG, JPEG & PNG files are allowed
+        $id = strip_tags($_GET["id"]);
 
-        foreach ($fileType as $e) {
-            @unlink("img/$id.$e");
-        }
+        // Get image extension
+        $query = "SELECT image_extension FROM products WHERE id=?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute() or die($conn->error);
 
+        // Delete the image associated with that product
+        unlink("img/".$id.".".$stmt->get_result()->fetch_assoc()["image_extension"]);
 
         // Delete all foreign keys associated with that product
         $query = "DELETE FROM order_product WHERE product_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute() or die($conn->error);
-        $result = $stmt->get_result();
 
         // Delete the product
         $query = "DELETE FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute() or die($conn->error);
-        $result = $stmt->get_result();
+
+        // redirect user to the same page but without id URL variable
+        header("location: products.php");
+        exit();
     }
 
     // select all the products
@@ -66,7 +70,7 @@
         </ul>
             <?php foreach ($rows as $row): ?>
                 <div>
-                    <img alt="<?= htmlspecialchars($row["title"])?>" src="img/<?= $row["id"] ?>" width="150" height="150">
+                    <img alt="<?= htmlspecialchars($row["title"])?>" src="img/<?= $row["id"].".".$row["image_extension"] ?>" width="150" height="150">
                     <h4><?= htmlspecialchars($row["title"]) ?></h4>
                     <p><?= htmlspecialchars($row["description"]) ?></p>
                     <h4><?= htmlspecialchars($row["price"]) ?> $</h4>
