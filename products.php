@@ -8,6 +8,8 @@
         exit();
     }
 
+    $rows = [];
+
     // delete product
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
@@ -37,8 +39,6 @@
     // select all the products
     $query = "SELECT * FROM products ORDER BY id";
     $result = $conn->query($query) or die($conn->error);
-
-    $rows = [];
 
     if (mysqli_num_rows($result)){
         while ($row = $result->fetch_assoc()) {
