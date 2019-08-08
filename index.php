@@ -2,6 +2,7 @@
     require_once "common.php";
 
     if (isset($_GET["id"])) {
+
         $_SESSION["cartIds"][] = strip_tags($_GET["id"]);
     }
 
@@ -9,6 +10,7 @@
 
     // select products that are not in the cart
     if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]) {
+
         $in = join(',', array_fill(0, count($_SESSION["cartIds"]), "?"));
         $query = "SELECT * FROM products WHERE id NOT IN ($in) ORDER BY id";
         $stmt = $conn->prepare($query);
@@ -16,10 +18,12 @@
         $stmt->execute() or die($conn->error);
         $result = $stmt->get_result();
     } else {
+
         $result = $conn->query("SELECT * FROM products") or die($conn->error);
     }
 
     if (mysqli_num_rows($result)) {
+
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
