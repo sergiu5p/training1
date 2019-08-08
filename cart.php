@@ -22,6 +22,7 @@
     $rows = [];
 
     if (isset($_POST["checkout"])) {
+        // MAX 120 characters per line
         $query = "INSERT INTO orders (name, email, comments, creation_date) 
             VALUES 
             (?, ?, ?, ?, CURDATE())";
