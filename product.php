@@ -96,27 +96,28 @@
 
             // check the image validation
             if (imageValidation($_FILES["image"])) {
+
+                // insert the product into table
+                $query = "INSERT INTO products (title, description, price, image_extension) VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($query);
+                $title = strip_tags($_POST["title"]);
+                $description = strip_tags($_POST["description"]);
+                $price = strip_tags($_POST["price"]);
+                $stmt->bind_param("ssds", $title, $description, $price, $GLOBALS["imageFileType"]);
+                $stmt->execute() or die($conn->error);
+
                 // extract the id of product
-                //$result = $conn->query("SELECT id FROM products ORDER BY id DESC LIMIT 1") or die($conn->error);
-                //$id = $result->fetch_assoc()["id"];
+                $result = $conn->query("SELECT id FROM products ORDER BY id DESC LIMIT 1") or die($conn->error);
+                $id = $result->fetch_assoc()["id"];
 
                 $tmp_name = $_FILES["image"]["tmp_name"];
                 $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
                 copy($tmp_name, $new_name);
                 $_SESSION["errors"] = [];
+                header("location: products.php");
+                exit();
             }
-
-            // insert the product into table
-            $query = "INSERT INTO products (title, description, price, image_extension) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $title = strip_tags($_POST["title"]);
-            $description = strip_tags($_POST["description"]);
-            $price = strip_tags($_POST["price"]);
-            $stmt->bind_param("ssds", $title, $description, $price, $GLOBALS["imageFileType"]);
-            $stmt->execute() or die($conn->error);
-            header("location: products.php");
-            exit();
         }
     }
 ?>
