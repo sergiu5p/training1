@@ -2,6 +2,7 @@
         require_once "common.php";
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+
         header("location: login.php");
         exit();
     }
@@ -16,18 +17,22 @@
         // Check if image file is a actual image or fake image
         $check = getimagesize($image["tmp_name"]);
         if ($check) {
+
             $uploadOk = 1;
         } else {
+
             $_SESSION["errors"][] =  "File is not an image.";
             $uploadOk = 0;
         }
         // Check file size
         if ($image["size"] > 500000) {
+
             $_SESSION["errors"][] =  "Sorry, your file is too large.";
             $uploadOk = 0;
         }
         // Allow certain file formats
         if ($GLOBALS["imageFileType"] != "jpg" && $GLOBALS["imageFileType"]
+
         != "png" && $GLOBALS["imageFileType"] != "jpeg") {
             $_SESSION["errors"][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
             $uploadOk = 0;
@@ -91,6 +96,7 @@
             exit();
         }
     } else {
+
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
 
