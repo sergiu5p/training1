@@ -3,6 +3,7 @@
     require_once "config.php";
 
     if (isset($_GET["id"])) {
+
         $index = array_search($_GET["id"], $_SESSION["cartIds"]);
         if ($index !== false){
             unset($_SESSION["cartIds"][$index]);
@@ -10,6 +11,7 @@
     }
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
+
         header("location: index.php");
         exit();
     }
@@ -25,6 +27,7 @@
     $pageURL = "http";
 
     if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
+
         $pageURL = "s";
     }
 
@@ -78,6 +81,7 @@
     }
 
     if (mysqli_num_rows($result)) {
+
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
