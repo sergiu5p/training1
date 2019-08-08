@@ -3,21 +3,25 @@
     require_once "config.php";
 
     if (isset($_GET["logout"])) {
+
         unset($_SESSION["logged_in"]);
         header("location: login.php");
         exit();
     }
 
     if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]) {
+
         header("location: products.php");
         exit();
     }
 
     if (isset($_POST["login"])) {
+
         $username = strip_tags($_POST["username"]);
         $password = strip_tags($_POST["password"]);
 
         if ($username == ADMIN_USERNAME && $password == ADMIN_PASSWORD) {
+
             $_SESSION["logged_in"] = true;
             header("location: products.php");
             exit();
