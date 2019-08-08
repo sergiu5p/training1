@@ -3,9 +3,9 @@
     require_once "config.php";
 
     if (isset($_GET["id"])) {
-        $verification = array_search($_GET["id"], $_SESSION["cartIds"]);
-        if (gettype($verification) != "boolean"){
-            unset($_SESSION["cartIds"][$verification]);
+        $index = array_search($_GET["id"], $_SESSION["cartIds"]);
+        if ($index !== "boolean"){
+            unset($_SESSION["cartIds"][$index]);
         }
     }
 
@@ -22,25 +22,22 @@
     $rows = [];
 
     if (isset($_POST["checkout"])) {
-        $query = "INSERT INTO orders (name, email, comments, summed_price, creation_date) VALUES 
-        (?, ?, ?, ?, CURDATE())";
+        $query = "INSERT INTO orders (name, email, comments, creation_date) 
+            VALUES 
+            (?, ?, ?, ?, CURDATE())";
         $name = strip_tags($_POST["name"]);
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
-        $summed_price = 0;
         $message_products = "";
 
         while ($row = $result->fetch_assoc()) {
             $message_products.="<h4>".$row["title"]."</h4>";
             $message_products.="<h4>".$row["description"]."</h4>";
             $message_products.="<h4>".$row["price"]." $</h4>";
-            // Extracting summed_price from query "SELECT * FROM products WHERE id IN $_SESSION["cartIds"]"
-            // Without JOIN and without collecting data from order_product table.
-            $summed_price += $row["price"];
         }
 
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssd", $name, $email, $comments, $summed_price);
+        $stmt->bind_param("sssd", $name, $email, $comments);
         $stmt->execute() or die($conn->error);
         // select the last order id
         $result = $conn->query("SELECT id FROM orders ORDER BY id DESC LIMIT 1") or die($conn->error);
