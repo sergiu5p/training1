@@ -24,6 +24,7 @@
     $result = $stmt->get_result();
 
     if (mysqli_num_rows($result)) {
+
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
