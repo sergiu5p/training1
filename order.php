@@ -2,11 +2,13 @@
     require_once "common.php";
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+
         header("location: login.php");
         exit();
     }
 
     if (!isset($_GET["id"])) {
+
         header("location: login.php");
         exit();
     }
@@ -20,8 +22,11 @@
     $stmt->bind_param("i", $id);
     $stmt->execute() or die($conn->error);
     $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $rows[] = $row;
+
+    if (mysqli_num_rows($result)) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
     }
 ?>
 <!DOCTYPE html>
