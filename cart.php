@@ -3,7 +3,6 @@
     require_once "config.php";
 
     if (isset($_GET["id"])) {
-
         $index = array_search($_GET["id"], $_SESSION["cartIds"]);
         if ($index !== false){
 
@@ -12,7 +11,6 @@
     }
 
     if (!isset($_SESSION["cartIds"]) || !count($_SESSION["cartIds"])) {
-
         header("location: index.php");
         exit();
     }
@@ -25,15 +23,13 @@
     $result = $stmt->get_result();
     $rows = [];
 
-    $pageURL = "http";
+    $protocol = "http";
 
     if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
-
-        $pageURL = "s";
+        $protocol .= "s";
     }
 
     if (isset($_POST["checkout"])) {
-
         // MAX 120 characters in one line
         $query = "INSERT INTO orders (name, email, comments, creation_date) 
             VALUES 
@@ -42,22 +38,22 @@
         $email = strip_tags($_POST["email"]);
         $comments = strip_tags($_POST["comments"]);
         $message_products = "";
-        while ($row = $result->fetch_assoc()) {
-
-            $image = "<img src=".'"'.$pageURL."://".$_SERVER['HTTP_HOST']."/img/".$row['id'].'.'.$row["image_extension"].'"'.">";
-            $message_products .= $image;
-            $message_products.="<h4>".$row["title"]."</h4>";
-            $message_products.="<h4>".$row["description"]."</h4>";
-            $message_products.="<h4>".$row["price"]." $</h4>";
-        }
 
         $stmt = $conn->prepare($query);
         $stmt->bind_param("sss", $name, $email, $comments);
         $stmt->execute() or die($conn->error);
 
         // select the last order id
-        $result = $conn->query("SELECT LAST_INSERT_ID()");
-        $lastID = $result->fetch_assoc()["LAST_INSERT_ID()"];
+        $lastID = $conn->query("SELECT LAST_INSERT_ID()")->fetch_assoc()["LAST_INSERT_ID()"];
+
+        while ($row = $result->fetch_assoc()) {
+            $conn->query('INSERT INTO order_product (order_id, product_id) VALUES ($lastID, strval($row["id"]))') or die($conn->error);
+            $image = "<img src=".'"'.$protocol."://".$_SERVER['HTTP_HOST']."/img/".$row['id'].'.'.$row["image_extension"].'"'.">";
+            $message_products .= $image;
+            $message_products.="<h4>".$row["title"]."</h4>";
+            $message_products.="<h4>".$row["description"]."</h4>";
+            $message_products.="<h4>".$row["price"]." $</h4>";
+        }
 
         // insert into order_product last order id and all products that have been ordered
         foreach ($_SESSION["cartIds"] as $pID) {
@@ -82,7 +78,6 @@
     }
 
     if (mysqli_num_rows($result)) {
-
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
