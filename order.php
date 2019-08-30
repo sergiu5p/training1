@@ -2,13 +2,11 @@
     require_once "common.php";
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
-
         header("location: login.php");
         exit();
     }
 
     if (!isset($_GET["id"])) {
-
         header("location: login.php");
         exit();
     }
@@ -24,7 +22,6 @@
     $result = $stmt->get_result();
 
     if (mysqli_num_rows($result)) {
-
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
@@ -40,9 +37,9 @@
     <body>
         <ul>
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-            <li><a href="products.php"><?= trans("products.php") ?></a></li>
-            <li><a href="index.php"><?= trans("index.php") ?></a></li>
-            <li><a href="orders.php"><?= trans("orders.php") ?></a></li>
+            <li><a href="products.php">products.php</a></li>
+            <li><a href="index.php">index.php</a></li>
+            <li><a href="orders.php">orders.php</a></li>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
                 <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
             <?php else: ?>

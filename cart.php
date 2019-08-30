@@ -4,8 +4,8 @@
 
     if (isset($_GET["id"])) {
         $index = array_search($_GET["id"], $_SESSION["cartIds"]);
-        if ($index !== false){
 
+        if ($index !== false){
             unset($_SESSION["cartIds"][$index]);
         }
     }
@@ -47,7 +47,7 @@
         $lastID = $conn->query("SELECT LAST_INSERT_ID()")->fetch_assoc()["LAST_INSERT_ID()"];
 
         while ($row = $result->fetch_assoc()) {
-            $conn->query('INSERT INTO order_product (order_id, product_id) VALUES ($lastID, strval($row["id"]))') or die($conn->error);
+            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastID, {$row['id']})") or die($conn->error);
             $image = "<img src=".'"'.$protocol."://".$_SERVER['HTTP_HOST']."/img/".$row['id'].'.'.$row["image_extension"].'"'.">";
             $message_products .= $image;
             $message_products.="<h4>".$row["title"]."</h4>";
@@ -94,13 +94,13 @@
         <ul>
             <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"]): ?>
                 <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-                <li><a href="products.php"><?= trans("products.php") ?></a></li>
-                <li><a href="orders.php"><?= trans("orders.php") ?></a></li>
+                <li><a href="products.php">products.php</a></li>
+                <li><a href="orders.php">orders.php</a></li>
             <?php else: ?>
                     <li><a href="login.php"><?= trans("Login") ?></a></li>
             <?php endif; ?>
             <li>
-                <a href="index.php"><?= trans("index.php") ?></a>
+                <a href="index.php">index.php</a>
             </li>
         </ul>
         <div>

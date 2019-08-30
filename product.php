@@ -2,7 +2,6 @@
         require_once "common.php";
 
     if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
-
         header("location: login.php");
         exit();
     }
@@ -16,24 +15,23 @@
 
         // Check if image file is a actual image or fake image
         $check = getimagesize($image["tmp_name"]);
-        if ($check) {
 
+        if ($check) {
             $uploadOk = 1;
         } else {
-
             $_SESSION["errors"][] =  "File is not an image.";
             $uploadOk = 0;
         }
+
         // Check file size
         if ($image["size"] > 500000) {
-
             $_SESSION["errors"][] =  "Sorry, your file is too large.";
             $uploadOk = 0;
         }
+
         // Allow certain file formats
         if ($GLOBALS["imageFileType"] != "jpg" && $GLOBALS["imageFileType"]
-
-        != "png" && $GLOBALS["imageFileType"] != "jpeg") {
+            != "png" && $GLOBALS["imageFileType"] != "jpeg") {
             $_SESSION["errors"][] =  "Sorry, only JPG, JPEG & PNG files are allowed.";
             $uploadOk = 0;
         }
@@ -48,7 +46,6 @@
     ];
 
     if (isset($_GET["id"])) {
-
         $id = strip_tags($_GET["id"]);
         $query = "SELECT * FROM products WHERE id = ?";
         $stmt = $conn->prepare($query);
@@ -59,12 +56,9 @@
 
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
-
             if ($_FILES["image"]["name"]) {
-
                 // Check the image validation
                 if (imageValidation($_FILES["image"])) {
-
                     $tmp_name = $_FILES["image"]["tmp_name"];
                     $new_name = "img/".$id.".".$GLOBALS["imageFileType"];
 
@@ -76,7 +70,6 @@
 
                     $_SESSION["errors"] = [];
                 } else {
-
                     header("location: product.php?id=$id");
                     exit();
                 }
@@ -96,15 +89,12 @@
             exit();
         }
     } else {
-
         if (isset($_POST["title"]) || isset($_POST["description"]) || isset($_POST["price"]) ||
             isset($_POST["image"]) || isset($_POST["save"])) {
-
             $_SESSION["errors"] = [];
 
             // check the image validation
             if (imageValidation($_FILES["image"])) {
-
                 // insert the product into table
                 $query = "INSERT INTO products (title, description, price, image_extension) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
@@ -139,9 +129,9 @@
     <body>
         <ul>
             <li><a href="login.php?logout"><?= trans("Logout") ?></a></li>
-            <li><a href="products.php"><?= trans("products.php") ?></a></li>
-            <li><a href="index.php"><?= trans("index.php") ?></a></li>
-            <li><a href="orders.php"><?= trans("orders.php") ?></a></li>
+            <li><a href="products.php">products.php</a></li>
+            <li><a href="index.php">index.php</a></li>
+            <li><a href="orders.php">orders.php</a></li>
             <?php if (isset($_SESSION["cartIds"]) && $_SESSION["cartIds"]): ?>
                 <li><a href="cart.php"><?= trans("Go to cart") ?></a></li>
             <?php else: ?>
