@@ -55,12 +55,6 @@
             $message_products.="<h4>".$row["price"]." $</h4>";
         }
 
-        // insert into order_product last order id and all products that have been ordered
-        foreach ($_SESSION["cartIds"] as $pID) {
-            $conn->query("INSERT INTO order_product (order_id, product_id) VALUES ($lastID, $pID)")
-            or die($conn->error);
-        }
-
         $_SESSION["message"] = "<h4>".$message_products."<h4>";
         $_SESSION["message"] .= "<h4>".$name."</h4>";
         $_SESSION["message"] .= "<h4>".$email."</h4>";
